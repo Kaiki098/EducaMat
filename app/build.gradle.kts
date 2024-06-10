@@ -50,7 +50,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.core.splashscreen) //Splash screen
+    implementation(libs.androidx.navigation.compose) //Navigation
 
 
     implementation(libs.androidx.core.ktx)

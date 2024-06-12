@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import br.com.kbat.educamat.presentation.navigation.EducaMatApp
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 
 class MainActivity : ComponentActivity() {

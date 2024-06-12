@@ -11,13 +11,14 @@ import androidx.compose.ui.graphics.Color
 import br.com.kbat.educamat.presentation.utils.getContrastColor
 import br.com.kbat.educamat.presentation.utils.getRandomColor
 
-/* Essa funcinalidade das cores aleatórias,
-podem ser apagadas, era só teste
- */
 
 @Composable
 fun SettingsScreen(modifier: Modifier = Modifier) {
     val backgroundColor = getRandomColor()
+    /* Essa funcinalidade das cores aleatórias,
+podem ser apagadas, era só teste
+ */
+
     Column (
         modifier.background(Color(backgroundColor)),
         verticalArrangement = Arrangement.Center,

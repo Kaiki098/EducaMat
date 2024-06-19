@@ -55,10 +55,7 @@ fun EducaMatApp() {
 
     DisposableEffect(navController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            showBottomBar = when (destination.route) {
-                QuestionRoute -> false
-                else -> true
-            }
+            showBottomBar = destination.route != QuestionRoute
         }
         navController.addOnDestinationChangedListener(listener)
         onDispose {

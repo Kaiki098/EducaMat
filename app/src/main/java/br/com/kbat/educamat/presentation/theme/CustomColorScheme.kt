@@ -1,0 +1,67 @@
+package br.com.kbat.educamat.presentation.theme
+
+import androidx.compose.material3.ColorScheme
+import androidx.compose.ui.graphics.Color
+
+fun customColorScheme(
+    primary: Color = Pink40,
+    onPrimary: Color = Pink40,
+    primaryContainer: Color = Pink40,
+    onPrimaryContainer: Color = Pink40,
+    inversePrimary: Color = Pink40,
+    secondary: Color = Pink40,
+    onSecondary: Color = Pink40,
+    secondaryContainer: Color = Pink40,
+    onSecondaryContainer: Color = Pink40,
+    tertiary: Color = Pink40,
+    onTertiary: Color = Pink40,
+    onTertiaryContainer: Color = Pink40,
+    background: Color = Pink40,
+    onBackground: Color = Pink40,
+    surface: Color = Pink40,
+    onSurface: Color = Pink40,
+    surfaceVariant: Color = Pink40,
+    onSurfaceVariant: Color = Pink40,
+    surfaceTint: Color = Pink40,
+    inverseSurface: Color = Pink40,
+    inverseOnSurface: Color = Pink40,
+    error: Color = Color.Red,
+    onError: Color = Pink40,
+    errorContainer: Color = Pink40,
+    onErrorContainer: Color = Pink40,
+    outline: Color = Pink40,
+    outlineVariant: Color = Pink40,
+    scrim: Color = Pink40
+): ColorScheme {
+    return ColorScheme(
+        primary = primary,
+        onPrimary = onPrimary,
+        primaryContainer = primaryContainer,
+        onPrimaryContainer = onPrimaryContainer,
+        inversePrimary = inversePrimary,
+        secondary = secondary,
+        onSecondary = onSecondary,
+        secondaryContainer = secondaryContainer,
+        onSecondaryContainer = onSecondaryContainer,
+        tertiary = tertiary,
+        onTertiary = onTertiary,
+        tertiaryContainer = onTertiaryContainer,
+        onTertiaryContainer = onTertiaryContainer,
+        background = background,
+        onBackground = onBackground,
+        surface = surface,
+        onSurface = onSurface,
+        surfaceVariant = surfaceVariant,
+        onSurfaceVariant = onSurfaceVariant,
+        surfaceTint = surfaceTint,
+        inverseSurface = inverseSurface,
+        inverseOnSurface = inverseOnSurface,
+        error = error,
+        onError = onError,
+        errorContainer = errorContainer,
+        onErrorContainer = onErrorContainer,
+        outline = outline,
+        outlineVariant = outlineVariant,
+        scrim = scrim
+    )
+}

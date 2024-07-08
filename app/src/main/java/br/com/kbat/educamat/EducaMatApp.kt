@@ -1,15 +1,14 @@
 package br.com.kbat.educamat
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -40,6 +43,7 @@ import br.com.kbat.educamat.presentation.navigation.navigateToTheory
 import br.com.kbat.educamat.presentation.navigation.questionDestination
 import br.com.kbat.educamat.presentation.navigation.signUpDestination
 import br.com.kbat.educamat.presentation.navigation.theoryDestination
+import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 
 
 @Composable
@@ -96,30 +100,30 @@ fun EducaMatApp() {
 
 sealed class HomeNavItem(
     val label: String,
-    val icon: ImageVector,
+    val icon: Int,
     val route: String
 ) {
     data object Progress : HomeNavItem(
         label = "Progresso",
-        Icons.Default.Star,
+        icon = R.drawable.progress,
         route = ProgressRoute
     )
 
     data object Questions : HomeNavItem(
         label = "Perguntas",
-        icon = Icons.Default.Email,
+        icon = R.drawable.minus,
         route = QuestionsRoute
     )
 
     data object Theories : HomeNavItem(
         label = "Teorias",
-        icon = Icons.Default.Create,
+        icon = R.drawable.multiply,
         route = TheoriesRoute
     )
 
     data object Settings : HomeNavItem(
-        label = "Configurações",
-        icon = Icons.Default.Settings,
+        label = "Ajustes",
+        icon = R.drawable.divide,
         route = SettingsRoute
     )
 }
@@ -140,6 +144,12 @@ fun BottomBar(navController: NavHostController) {
     val currentDestination = currentBackStack?.destination?.route
 
     BottomAppBar(
+        modifier = Modifier.clip(
+            shape = RoundedCornerShape(
+                topStartPercent = 30,
+                topEndPercent = 30
+            )
+        ),
         actions = {
             items.forEach { item ->
                 NavigationBarItem(
@@ -152,16 +162,29 @@ fun BottomBar(navController: NavHostController) {
                     },
                     icon = {
                         Icon(
-                            imageVector = item.icon,
-                            contentDescription = null
+                            modifier = Modifier.height(20.dp),
+                            painter = painterResource(id = item.icon),
+                            contentDescription = null,
                         )
                     },
                     label = {
-                        Text(text = item.label)
-                    }
+                        Text(
+                            text = item.label,
+                            fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                            fontSize = 12.sp
+                        )
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedTextColor = Color.White,
+                        unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                        indicatorColor = Color.Transparent,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = MaterialTheme.colorScheme.onPrimary
+                    )
                 )
             }
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primary
     )
 }
 
@@ -169,5 +192,7 @@ fun BottomBar(navController: NavHostController) {
 @Composable
 private fun BottomBarPreview() {
     val navController: NavHostController = rememberNavController()
-    BottomBar(navController = navController)
+    EducaMatTheme {
+        BottomBar(navController = navController)
+    }
 }

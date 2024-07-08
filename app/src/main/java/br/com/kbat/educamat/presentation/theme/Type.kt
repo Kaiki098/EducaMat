@@ -2,14 +2,22 @@ package br.com.kbat.educamat.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import br.com.kbat.educamat.R
+
+
+val FredokaOne = FontFamily(
+    Font(resId = R.font.fredoka_one, weight = FontWeight.Normal),
+    Font(resId = R.font.fredoka_one, weight = FontWeight.Bold)
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FredokaOne,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,

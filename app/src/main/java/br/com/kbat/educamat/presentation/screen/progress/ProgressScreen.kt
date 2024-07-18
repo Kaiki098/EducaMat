@@ -2,7 +2,6 @@ package br.com.kbat.educamat.presentation.screen.progress
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.utils.ColorUtil
 
 @Composable
 fun ProgressScreen(modifier: Modifier = Modifier) {
@@ -34,27 +34,24 @@ fun ProgressScreen(modifier: Modifier = Modifier) {
             text = "Questões",
             fontSize = 32.sp
         )
-        val questions = List(10) {
+        val questions = List(10) { i ->
             QuestionUI(
-                icon = R.drawable.correct_icon,
-                iconDescription = "Ícone de questão correta",
-                questionNumber = 1,
-                questionPreview = "4+2 é...",
+                icon = if (i % 2 == 0) R.drawable.correct_icon else R.drawable.wrong_icon, //Precisa do ícone msm? da pra tirar isso comparando as respostas e tem a questão da cor do ícone
+                iconDescription = if (i % 2 == 0) "Ícone de questão correta" else "Ícone de questão incorreta",
+                number = i + 1,
+                color = ColorUtil.getRandomColor(),
+                preview = "4+2 é...",
                 questionTime = 20,
-                questionDescription = "Qual é a soma de 4 + 2?",
-                answear = "8",
+                description = "Qual é a soma de 4 + 2?",
+                userAnswear = "8",
                 correctAnswear = "6"
             )
         }
 
+
         LazyColumn {
             items(questions) { question ->
-                QuestionItem(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 10.dp),
-                    question = question
-                )
+                QuestionItem(question = question)
             }
         }
     }

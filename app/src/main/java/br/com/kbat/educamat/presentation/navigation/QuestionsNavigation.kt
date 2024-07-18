@@ -1,5 +1,6 @@
 package br.com.kbat.educamat.presentation.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,10 +11,18 @@ const val QuestionsRoute = "questionsscreen"
 
 fun NavGraphBuilder.questionsDestination(
     defaultModifier: Modifier,
-    onNavigateToQuestion: () -> Unit
+    onNavigateToQuestion: () -> Unit,
+    alternateDirection: (AnimatedContentTransitionScope.SlideDirection) -> Unit
+    // transitionDirection: AnimatedContentTransitionScope.SlideDirection
 ) {
-    composable(route = QuestionsRoute) {
-        QuestionsScreen(defaultModifier, onStartCLick = { onNavigateToQuestion() })
+    composable(
+        route = QuestionsRoute
+    ) {
+        alternateDirection(AnimatedContentTransitionScope.SlideDirection.Start)
+        QuestionsScreen(defaultModifier, onStartCLick = {
+            alternateDirection(AnimatedContentTransitionScope.SlideDirection.Up)// fix: Ta ficando com duas animações
+            onNavigateToQuestion()
+        })
     }
 }
 

@@ -1,5 +1,6 @@
 package br.com.kbat.educamat.presentation.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,10 +11,18 @@ const val TheoriesRoute = "theoriesscreen"
 
 fun NavGraphBuilder.theoriesDestination(
     defaultModifier: Modifier,
-    onNavigateToTheory: () -> Unit
+    onNavigateToTheory: () -> Unit,
+    alternateDirection: (AnimatedContentTransitionScope.SlideDirection) -> Unit
+
 ) {
-    composable(route = TheoriesRoute) {
-        TheoriesScreen(defaultModifier, onStudyClick = { onNavigateToTheory() })
+    composable(
+        route = TheoriesRoute
+    ) {
+        alternateDirection(AnimatedContentTransitionScope.SlideDirection.Start)
+        TheoriesScreen(defaultModifier, onStudyClick = {
+            alternateDirection(AnimatedContentTransitionScope.SlideDirection.Up) // fix: Ta ficando com duas animações
+            onNavigateToTheory()
+        })
     }
 }
 

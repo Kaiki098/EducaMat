@@ -1,5 +1,10 @@
 package br.com.kbat.educamat
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -68,19 +73,59 @@ fun EducaMatApp() {
     }
 
     Scaffold(
-        bottomBar = { if (showBottomBar) BottomBar(navController = navController) },
+        bottomBar = {
+            AnimatedVisibility(
+                visible = showBottomBar,
+                enter = slideInVertically(
+                    initialOffsetY = { fullHeight -> fullHeight }
+                ),
+                exit = slideOutVertically(
+                    targetOffsetY = { fullHeight -> fullHeight }
+                )
+            ) {
+                BottomBar(navController = navController)
+            }
+        },
     ) { innerpadding ->
+
+        var transitionDirection by remember {
+            mutableStateOf(AnimatedContentTransitionScope.SlideDirection.Start)
+        }
+
 
         val defaultModifier = Modifier
             .fillMaxSize()
             .padding(innerpadding)
 
-        NavHost(navController = navController, startDestination = starDestination) {
+        NavHost(
+            navController = navController,
+            startDestination = starDestination,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = transitionDirection,
+                    animationSpec = tween(500)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = transitionDirection,
+                    animationSpec = tween(500)
+                )
+            }
+        ) {
             signUpDestination(defaultModifier)
+
             homeGraph(
                 defaultModifier = defaultModifier,
-                onNavigateToQuestion = { navController.navigateToQuestion() },
-                onNavigateToTheory = { navController.navigateToTheory() }
+                onNavigateToQuestion = {
+                    navController.navigateToQuestion()
+                },
+                onNavigateToTheory = {
+                    navController.navigateToTheory()
+                },
+                alternateDirection = { direction ->
+                    transitionDirection = direction
+                }
             )
             theoryDestination(
                 defaultModifier,

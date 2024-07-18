@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Orange
+import br.com.kbat.educamat.presentation.utils.ColorUtil
 
 @Composable
 fun Chart(modifier: Modifier = Modifier) {
@@ -51,56 +52,58 @@ fun QuestionItem(
         mutableStateOf(false)
     }
     Column(
-        modifier = modifier.clickable {
-            showQuestion = !showQuestion
-        }
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { showQuestion = !showQuestion }
+            .padding(horizontal = 20.dp, vertical = 10.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
+                    modifier = Modifier.padding(end = 8.dp),
                     painter = painterResource(id = question.icon),
-                    contentDescription = question.iconDescription
+                    contentDescription = question.iconDescription,
+                    tint = if (question.icon == R.drawable.wrong_icon) Color.Red else Color.Green
                 )
-                Text(text = "Q${question.questionNumber}", color = Color.Red, fontSize = 24.sp)
+                Text(text = "Q${question.number}", color = Color(question.color), fontSize = 24.sp)
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = question.questionPreview,
+                    text = question.preview,
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 24.sp
+                    fontSize = 20.sp
                 )
             }
-
             Box {
-                Text(text = "Tempo gasto: ${question.questionTime}", fontSize = 20.sp)
+                Text(text = "Tempo: ${question.questionTime}", fontSize = 20.sp)
             }
-
         }
         AnimatedVisibility(visible = showQuestion) {
             Column(
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
-                Text(text = question.questionDescription, fontSize = 20.sp)
-                Text(text = "Sua resposta: " + question.answear, fontSize = 20.sp)
+                Text(text = question.description, fontSize = 20.sp)
+                Text(text = "Sua resposta: " + question.userAnswear, fontSize = 20.sp)
                 Text(text = "Resposta correta: " + question.correctAnswear, fontSize = 20.sp)
             }
         }
     }
 }
 
+
 data class QuestionUI(
     val icon: Int,
     val iconDescription: String,
-    val questionNumber: Int,
-    val questionPreview: String,
+    val number: Int,
+    val color: Int,
+    val preview: String,
     val questionTime: Int,
-    val questionDescription: String,
-    val answear: String,
+    val description: String,
+    val userAnswear: String,
     val correctAnswear: String
 )
 
@@ -117,14 +120,16 @@ private fun ChartPreview() {
 private fun QuestionItemPreview() {
     EducaMatTheme {
         QuestionItem(
+            Modifier,
             question = QuestionUI(
-                icon = R.drawable.correct_icon,
+                icon = R.drawable.wrong_icon,
                 iconDescription = "Ícone de questão correta",
-                questionNumber = 1,
-                questionPreview = "4+2 é...",
+                number = 1,
+                color = ColorUtil.getRandomColor(),
+                preview = "4+2 é...",
                 questionTime = 20,
-                questionDescription = "Qual é a soma de 4 + 2?",
-                answear = "8",
+                description = "Qual é a soma de 4 + 2?",
+                userAnswear = "8",
                 correctAnswear = "6"
             )
         )

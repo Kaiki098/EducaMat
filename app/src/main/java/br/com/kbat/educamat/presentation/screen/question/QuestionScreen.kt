@@ -29,7 +29,7 @@ fun QuestionScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "QuestionScreen")
+            Text(text = "Question Screen")
             Button(onClick = { onBackClick() }) {
                 Text(text = "Voltar")
             }

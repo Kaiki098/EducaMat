@@ -11,7 +11,9 @@ fun NavGraphBuilder.questionDestination(
     defaultModifier: Modifier,
     onPopBackStack: () -> Unit
 ) {
-    composable(QuestionRoute) {
+    composable(
+        QuestionRoute,
+    ) { backStackEntry ->
         QuestionScreen(defaultModifier, onBackClick = { onPopBackStack() })
     }
 }

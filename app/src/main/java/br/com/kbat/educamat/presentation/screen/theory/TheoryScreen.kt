@@ -1,18 +1,25 @@
 package br.com.kbat.educamat.presentation.screen.theory
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.presentation.theme.Orange
 
 @Composable
 fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
@@ -23,15 +30,24 @@ fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
+
         Column(
-            modifier,
-            verticalArrangement = Arrangement.Center,
+            modifier.padding(horizontal = 30.dp, vertical = 60.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "TheoryScreen")
-            Button(onClick = { onBackClick() }) {
-                Text(text = "Voltar")
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.3f)
+                    .border(width = 10.dp, color = Orange, shape = RoundedCornerShape(20))
+                    .background(color = Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Teoria", fontSize = 24.sp)
             }
+
+
         }
+
     }
 }

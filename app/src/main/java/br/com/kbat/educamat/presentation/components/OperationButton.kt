@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.components
+package br.com.kbat.educamat.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.height

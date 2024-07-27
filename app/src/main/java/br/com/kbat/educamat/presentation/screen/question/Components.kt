@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.progress
+package br.com.kbat.educamat.presentation.screen.question
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background

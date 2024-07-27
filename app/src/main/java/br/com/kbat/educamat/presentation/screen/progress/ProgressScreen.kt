@@ -13,6 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.presentation.screen.question.Chart
+import br.com.kbat.educamat.presentation.screen.question.QuestionItem
+import br.com.kbat.educamat.presentation.screen.question.QuestionUI
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.utils.ColorUtil
 

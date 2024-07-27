@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
-import br.com.kbat.educamat.presentation.screen.components.OperationButton
+import br.com.kbat.educamat.presentation.components.OperationButton
 import br.com.kbat.educamat.presentation.theme.Blue
 import br.com.kbat.educamat.presentation.theme.Pink
 import br.com.kbat.educamat.presentation.theme.Red

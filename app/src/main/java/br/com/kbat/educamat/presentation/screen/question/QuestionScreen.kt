@@ -1,7 +1,6 @@
 package br.com.kbat.educamat.presentation.screen.question
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -47,7 +46,32 @@ fun QuestionScreen(
     var currentQuestionNumber by remember {
         mutableIntStateOf(0)
     }
-    Log.d("", "$currentQuestionNumber de ${questions.size}")
+    val questionText = "Quanto é ${questions[currentQuestionNumber].expression}?"
+    val onClick = {
+        if (currentQuestionNumber < questions.size - 1) currentQuestionNumber++
+        else Toast.makeText(
+            context,
+            "Fim das questões",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+    val optionText = questions[currentQuestionNumber].options
+
+    Question(
+        modifier = modifier,
+        questionText = questionText,
+        onClick = { onClick() },
+        optionText = optionText
+    )
+}
+
+@Composable
+fun Question(
+    modifier: Modifier = Modifier,
+    questionText: String,
+    onClick: () -> Unit,
+    optionText: List<String>
+) {
     Box {
         Image(
             painter = painterResource(id = R.drawable.background),
@@ -70,7 +94,7 @@ fun QuestionScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Quanto é ${questions[currentQuestionNumber].expression}?",
+                    text = questionText,
                     fontSize = 24.sp
                 )
             }
@@ -86,15 +110,8 @@ fun QuestionScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        onClick = {
-                            if (currentQuestionNumber < questions.size - 1) currentQuestionNumber++
-                            else Toast.makeText(
-                                context,
-                                "Fim das questões",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }, //TODO Salvar a questão na memória
-                        text = questions[currentQuestionNumber].options[i]
+                        onClick = onClick, //TODO Salvar a questão na memória
+                        text = optionText[i]
                     )
                 }
             }
@@ -104,8 +121,13 @@ fun QuestionScreen(
 
 @Preview
 @Composable
-private fun QuestionScreenPreview() {// FIXME
+private fun QuestionScreenPreview() {
     EducaMatTheme {
-        QuestionScreen(modifier = Modifier.fillMaxSize(), onBackClick = {})
+        Question(
+            modifier = Modifier.fillMaxSize(),
+            questionText = "Quanto é 2 + 2?",
+            onClick = { },
+            optionText = List(4) { i -> i.toString() }
+        )
     }
 }

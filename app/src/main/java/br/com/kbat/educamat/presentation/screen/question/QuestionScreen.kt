@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,10 +29,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.domain.model.AnsweredQuestion
 import br.com.kbat.educamat.presentation.screen.questions.QuestionChoice
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Orange
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -42,25 +45,50 @@ fun QuestionScreen(
     questionViewModel: QuestionViewModel = koinViewModel(),
     context: Context = koinInject()
 ) {
-    val questions by questionViewModel.questions.collectAsState()
+    val questions by questionViewModel.questions.collectAsState() // TODO Adicionar funcionalidade de cronômetro talvez
     var currentQuestionNumber by remember {
         mutableIntStateOf(0)
     }
-    val questionText = "Quanto é ${questions[currentQuestionNumber].expression}?"
-    val onClick = {
-        if (currentQuestionNumber < questions.size - 1) currentQuestionNumber++
-        else Toast.makeText(
-            context,
-            "Fim das questões",
-            Toast.LENGTH_LONG
-        ).show()
+    val questionText =
+        "Quanto é ${questions[currentQuestionNumber].expression}?" //TODO Da pra diminuir esse código
+
+    val scope = rememberCoroutineScope()
+    val onClick: (String) -> Unit = { answerGiven ->
+        if (currentQuestionNumber < questions.size - 1) {
+            scope.launch {
+                questionViewModel.save(
+                    AnsweredQuestion(
+                        options = questions[currentQuestionNumber].options,
+                        correctAnswer = questions[currentQuestionNumber].correctAnswer,
+                        expression = questions[currentQuestionNumber].expression,
+                        answerGiven = answerGiven
+                    )
+                )
+                currentQuestionNumber++
+                Toast.makeText(context, "Resposta dada: $answerGiven", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            scope.launch {
+                questionViewModel.save(
+                    AnsweredQuestion(
+                        options = questions[currentQuestionNumber].options,
+                        correctAnswer = questions[currentQuestionNumber].correctAnswer,
+                        expression = questions[currentQuestionNumber].expression,
+                        answerGiven = answerGiven
+                    )
+                )
+                Toast.makeText(context, "Fim das questões", Toast.LENGTH_LONG).show()
+                onBackClick()
+            }
+        }
     }
+
     val optionText = questions[currentQuestionNumber].options
 
     Question(
         modifier = modifier,
         questionText = questionText,
-        onClick = { onClick() },
+        onClick = onClick,
         optionText = optionText
     )
 }
@@ -69,7 +97,7 @@ fun QuestionScreen(
 fun Question(
     modifier: Modifier = Modifier,
     questionText: String,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
     optionText: List<String>
 ) {
     Box {
@@ -110,7 +138,7 @@ fun Question(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        onClick = onClick, //TODO Salvar a questão na memória
+                        onClick = { onClick(optionText[i]) },
                         text = optionText[i]
                     )
                 }

@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,9 +20,27 @@ import br.com.kbat.educamat.presentation.screen.question.QuestionItem
 import br.com.kbat.educamat.presentation.screen.question.QuestionUI
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.utils.ColorUtil
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ProgressScreen(modifier: Modifier = Modifier) {
+fun ProgressScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ProgressViewModel = koinViewModel()
+) {
+    val answeredQuestions by viewModel.answeredQuestions.collectAsState()
+    val questions = answeredQuestions.map { question -> // TODO Arrumar um UIState pra cá
+        QuestionUI(
+            icon = if (question.correctAnswer == question.answerGiven) R.drawable.correct_icon else R.drawable.wrong_icon,
+            iconDescription = if (question.correctAnswer == question.answerGiven) "Ícone de questão correta" else "Ícone de questão incorreta",
+            number = question.id,
+            color = ColorUtil.getRandomColor(),
+            preview = "${question.expression} é...",
+            questionTime = 20,
+            description = "Quanto é ${question.expression}?",
+            userAnswear = question.answerGiven,
+            correctAnswear = question.correctAnswer
+        )
+    }
     Column(
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.background)
@@ -37,19 +57,6 @@ fun ProgressScreen(modifier: Modifier = Modifier) {
             text = "Questões",
             fontSize = 32.sp
         )
-        val questions = List(10) { i ->
-            QuestionUI(
-                icon = if (i % 2 == 0) R.drawable.correct_icon else R.drawable.wrong_icon, //Precisa do ícone msm? da pra tirar isso comparando as respostas e tem a questão da cor do ícone
-                iconDescription = if (i % 2 == 0) "Ícone de questão correta" else "Ícone de questão incorreta",
-                number = i + 1,
-                color = ColorUtil.getRandomColor(),
-                preview = "4+2 é...",
-                questionTime = 20,
-                description = "Qual é a soma de 4 + 2?",
-                userAnswear = "8",
-                correctAnswear = "6"
-            )
-        }
 
 
         LazyColumn {

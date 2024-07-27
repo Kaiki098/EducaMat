@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 private val OrangeColorScheme = customColorScheme(
     primary = Orange,
     onPrimary = Color.Black,
-    background = Color.White,
+    background = LightOrange,
     onBackground = Color.Black,
     onSurface = Gray
 )

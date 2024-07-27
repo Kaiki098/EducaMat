@@ -20,7 +20,7 @@ import br.com.kbat.educamat.presentation.utils.ColorUtil
 fun ProgressScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Text(
             modifier = Modifier.padding(vertical = 20.dp, horizontal = 24.dp),

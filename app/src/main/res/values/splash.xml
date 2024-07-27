@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.EducaMat.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_background_color</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/educamatlogo</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/avd_educamat</item>
         <item name="postSplashScreenTheme">@style/Theme.EducaMat</item>
     </style>
 </resources>

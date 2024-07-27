@@ -23,9 +23,14 @@ import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Pink
 import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.theme.Yellow
+import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun QuestionsScreen(modifier: Modifier = Modifier, onStartClick: () -> Unit) {
+fun QuestionsScreen(
+    modifier: Modifier = Modifier, onStartClick: () -> Unit,
+    questionViewModel: QuestionViewModel = koinViewModel()
+) {
     Box {
         Image(
             painter = painterResource(id = R.drawable.background),
@@ -49,7 +54,10 @@ fun QuestionsScreen(modifier: Modifier = Modifier, onStartClick: () -> Unit) {
                     .fillMaxWidth(),
                 text = "Adição",
                 borderColor = Red,
-                onStartClick = { onStartClick() }
+                onStartClick = {
+                    questionViewModel.generateQuestions("addition", 10, 101)
+                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
+                }
             )
 
             OperationButton(
@@ -58,7 +66,10 @@ fun QuestionsScreen(modifier: Modifier = Modifier, onStartClick: () -> Unit) {
                     .fillMaxWidth(),
                 text = "Subtração",
                 borderColor = Yellow,
-                onStartClick = { onStartClick() }
+                onStartClick = {
+                    questionViewModel.generateQuestions("subtraction", 10, 101)
+                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
+                }
             )
 
             OperationButton(
@@ -67,7 +78,10 @@ fun QuestionsScreen(modifier: Modifier = Modifier, onStartClick: () -> Unit) {
                     .fillMaxWidth(),
                 text = "Multiplicação",
                 borderColor = Blue,
-                onStartClick = { onStartClick() }
+                onStartClick = {
+                    questionViewModel.generateQuestions("multiplication", 10, 101)
+                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
+                }
             )
 
             OperationButton(
@@ -76,7 +90,10 @@ fun QuestionsScreen(modifier: Modifier = Modifier, onStartClick: () -> Unit) {
                     .fillMaxWidth(),
                 text = "Divisão",
                 borderColor = Pink,
-                onStartClick = { onStartClick() }
+                onStartClick = {
+                    questionViewModel.generateQuestions("division", 10, 101)
+                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
+                }
             )
         }
     }

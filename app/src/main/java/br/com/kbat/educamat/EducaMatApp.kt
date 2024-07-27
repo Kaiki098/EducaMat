@@ -69,7 +69,6 @@ fun EducaMatApp() {
             navController.removeOnDestinationChangedListener(listener)
         }
     }
-
     Scaffold(
         bottomBar = {
             AnimatedVisibility(

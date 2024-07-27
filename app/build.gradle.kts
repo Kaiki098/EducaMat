@@ -50,7 +50,8 @@ android {
 dependencies {
     implementation(libs.androidx.core.splashscreen) //Splash screen
     implementation(libs.androidx.navigation.compose) //Navigation
-
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose) // koin compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

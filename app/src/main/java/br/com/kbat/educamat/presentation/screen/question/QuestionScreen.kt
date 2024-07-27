@@ -1,5 +1,8 @@
 package br.com.kbat.educamat.presentation.screen.question
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,6 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,9 +32,22 @@ import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.screen.questions.QuestionChoice
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Orange
+import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
-fun QuestionScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
+fun QuestionScreen(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    questionViewModel: QuestionViewModel = koinViewModel(),
+    context: Context = koinInject()
+) {
+    val questions by questionViewModel.questions.collectAsState()
+    var currentQuestionNumber by remember {
+        mutableIntStateOf(0)
+    }
+    Log.d("", "$currentQuestionNumber de ${questions.size}")
     Box {
         Image(
             painter = painterResource(id = R.drawable.background),
@@ -39,6 +60,7 @@ fun QuestionScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
             modifier.padding(horizontal = 30.dp, vertical = 60.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -47,7 +69,10 @@ fun QuestionScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                     .background(color = Color.White),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Pergunta", fontSize = 24.sp)
+                Text(
+                    text = "Quanto é ${questions[currentQuestionNumber].expression}?",
+                    fontSize = 24.sp
+                )
             }
 
             Column(
@@ -56,25 +81,30 @@ fun QuestionScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                     .padding(vertical = 60.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                List(4) {
+                List(4) { i ->
                     QuestionChoice(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        onClick = { /*TODO*/ },
-                        text = "Resposta"
+                        onClick = {
+                            if (currentQuestionNumber < questions.size - 1) currentQuestionNumber++
+                            else Toast.makeText(
+                                context,
+                                "Fim das questões",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }, //TODO Salvar a questão na memória
+                        text = questions[currentQuestionNumber].options[i]
                     )
                 }
             }
-
         }
-
     }
 }
 
 @Preview
 @Composable
-private fun QuestionScreenPreview() {
+private fun QuestionScreenPreview() {// FIXME
     EducaMatTheme {
         QuestionScreen(modifier = Modifier.fillMaxSize(), onBackClick = {})
     }

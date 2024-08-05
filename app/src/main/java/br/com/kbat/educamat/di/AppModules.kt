@@ -11,7 +11,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appModule = module {
-    singleOf(::QuestionRepository)// TODO Aquela função de gerar questões talvez devesse não ficar no repositório, talvez um service
+    singleOf(::QuestionRepository)
     viewModelOf(::QuestionViewModel)
     viewModelOf(::ProgressViewModel)
 }

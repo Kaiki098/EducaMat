@@ -14,8 +14,8 @@ class QuestionViewModel(
 
     val questions: StateFlow<List<Question>> = questionRepository.questions
 
-    fun generateQuestions(operation: String, numberOfQuestions: Int, maxValue: Int) {
-        questionRepository.generateQuestions(operation, numberOfQuestions, maxValue)
+    fun loadQuestions(operation: String, numberOfQuestions: Int, maxValue: Int) {
+        questionRepository.createQuestions(operation, numberOfQuestions, maxValue)
     }
 
     fun save(question: AnsweredQuestion) {

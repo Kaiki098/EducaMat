@@ -9,7 +9,6 @@ class ProgressViewModel(
     private val questionRepository: QuestionRepository
 ) : ViewModel() {
 
-    val answeredQuestions: StateFlow<List<AnsweredQuestion>> =
-        questionRepository.answeredQuestions // TODO Revisar pra ver se este é o melhor metodo
+    val answeredQuestions: StateFlow<List<AnsweredQuestion>> = questionRepository.answeredQuestions
 
 }

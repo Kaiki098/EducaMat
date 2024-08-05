@@ -55,7 +55,7 @@ fun QuestionsScreen(
                 text = "Adição",
                 borderColor = Red,
                 onStartClick = {
-                    questionViewModel.generateQuestions("addition", 10, 101)
+                    questionViewModel.loadQuestions("addition", 10, 101)
                     if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
                 }
             )
@@ -67,7 +67,7 @@ fun QuestionsScreen(
                 text = "Subtração",
                 borderColor = Yellow,
                 onStartClick = {
-                    questionViewModel.generateQuestions("subtraction", 10, 101)
+                    questionViewModel.loadQuestions("subtraction", 10, 101)
                     if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
                 }
             )
@@ -79,7 +79,7 @@ fun QuestionsScreen(
                 text = "Multiplicação",
                 borderColor = Blue,
                 onStartClick = {
-                    questionViewModel.generateQuestions("multiplication", 10, 101)
+                    questionViewModel.loadQuestions("multiplication", 10, 101)
                     if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
                 }
             )
@@ -91,7 +91,7 @@ fun QuestionsScreen(
                 text = "Divisão",
                 borderColor = Pink,
                 onStartClick = {
-                    questionViewModel.generateQuestions("division", 10, 101)
+                    questionViewModel.loadQuestions("division", 10, 101)
                     if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
                 }
             )

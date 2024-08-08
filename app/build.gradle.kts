@@ -53,10 +53,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose) //Navigation
     implementation(libs.koin.android)// koin
     implementation(libs.koin.androidx.compose) // koin compose
-    implementation("androidx.room:room-runtime:2.6.1")// room db
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.room.runtime)// room db
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.datastore.preferences)// DataStore
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

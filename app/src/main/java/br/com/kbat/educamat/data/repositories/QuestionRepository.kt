@@ -31,7 +31,7 @@ class QuestionRepository(
         }
     }
 
-    fun createQuestions(
+    fun createQuestions( // TODO TALVEZ TROCAR PARA CREATE APENAS?
         operation: String,
         numberOfQuestions: Int,
         maxValue: Int //Não é inclusivo

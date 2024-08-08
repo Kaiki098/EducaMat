@@ -44,7 +44,7 @@ fun QuestionScreen(
     onBackClick: () -> Unit,
     questionViewModel: QuestionViewModel = koinViewModel(),
     context: Context = koinInject()
-) {
+) {// TODO Adicionar UIState
     val questions by questionViewModel.questions.collectAsState() // TODO Adicionar funcionalidade de cronômetro talvez
     var currentQuestionNumber by remember {
         mutableIntStateOf(0)

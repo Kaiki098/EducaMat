@@ -2,6 +2,7 @@ package br.com.kbat.educamat.di
 
 import androidx.room.Room
 import br.com.kbat.educamat.data.EducaMatDatabase
+import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.data.repositories.QuestionRepository
 import br.com.kbat.educamat.presentation.screen.progress.ProgressViewModel
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
@@ -26,4 +27,5 @@ val storageModule = module {
     single {
         get<EducaMatDatabase>().answeredQuestionDao()
     }
+    single { UserPreferences(androidContext()) }
 }

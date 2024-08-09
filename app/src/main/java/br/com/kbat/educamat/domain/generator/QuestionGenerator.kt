@@ -9,7 +9,7 @@ object QuestionGenerator {
         return List(numberOfQuestions) { i ->
             val (n1, n2) = generateOperands(maxValue, operation)
             val correctAnswer = calculateCorrectAnswer(n1, n2, operation)
-            val options = generateOptions(correctAnswer, maxValue)
+            val options = generateOptions(correctAnswer, maxValue, operation)
             val expression = formatExpression(n1, n2, operation)
 
             Question(
@@ -42,10 +42,21 @@ object QuestionGenerator {
         }
     }
 
-    private fun generateOptions(correctAnswer: Number, maxValue: Int): List<String> {
+    private fun generateOptions(
+        correctAnswer: Number,
+        maxValue: Int,
+        operation: String
+    ): List<String> {
         val options = mutableSetOf(correctAnswer.toString())
         while (options.size < 4) {
-            options.add(Random.nextInt(maxValue).toString())
+            options.add(
+                when (operation) {
+                    "subtraction" -> Random.nextInt(maxValue) - Random.nextInt(maxValue)
+                    "multiplication" -> Random.nextInt(maxValue) * Random.nextInt(maxValue)
+                    "division" -> Random.nextInt(maxValue) / Random.nextInt(maxValue).toFloat()
+                    else -> Random.nextInt(maxValue)
+                }.toString()
+            )
         }
         return options.toList().shuffled()
     }

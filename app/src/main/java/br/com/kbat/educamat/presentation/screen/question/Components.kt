@@ -1,7 +1,6 @@
 package br.com.kbat.educamat.presentation.screen.question
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,10 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,18 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
-import br.com.kbat.educamat.presentation.theme.Orange
 import br.com.kbat.educamat.presentation.utils.ColorUtil
-
-@Composable
-fun Chart(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .height(150.dp)
-            .width(350.dp)
-            .background(color = Orange, shape = RoundedCornerShape(20))
-    )
-}
 
 @Composable
 fun QuestionItem(
@@ -94,7 +80,6 @@ fun QuestionItem(
     }
 }
 
-
 data class QuestionUI(
     val icon: Int,
     val iconDescription: String,
@@ -106,14 +91,6 @@ data class QuestionUI(
     val userAnswear: String,
     val correctAnswear: String
 )
-
-@Preview
-@Composable
-private fun ChartPreview() {
-    EducaMatTheme {
-        Chart()
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

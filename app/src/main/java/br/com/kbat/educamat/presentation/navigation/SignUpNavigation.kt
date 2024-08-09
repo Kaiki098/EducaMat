@@ -7,8 +7,11 @@ import br.com.kbat.educamat.presentation.screen.singUp.SignUpScreen
 
 const val SignUpRoute = "signupscreen"
 
-fun NavGraphBuilder.signUpDestination(defaultModifier: Modifier) {
+fun NavGraphBuilder.signUpDestination(
+    defaultModifier: Modifier,
+    onNavigateToHome: () -> Unit
+) {
     composable(route = SignUpRoute) {
-        SignUpScreen(defaultModifier)
+        SignUpScreen(defaultModifier, onNavigateToHome)
     }
 }

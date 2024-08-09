@@ -16,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +33,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.presentation.navigation.HomeGraphRoute
 import br.com.kbat.educamat.presentation.navigation.ProgressRoute
 import br.com.kbat.educamat.presentation.navigation.QuestionRoute
@@ -49,15 +47,14 @@ import br.com.kbat.educamat.presentation.navigation.questionDestination
 import br.com.kbat.educamat.presentation.navigation.signUpDestination
 import br.com.kbat.educamat.presentation.navigation.theoryDestination
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
-import org.koin.compose.koinInject
 
 
 @Composable
-fun EducaMatApp() {
-    val userPreferences: UserPreferences = koinInject()
-    val isUserLoggedIn by userPreferences.isUserLoggedIn.collectAsState(initial = false)
+fun EducaMatApp(
+    isUserLoggedIn: Boolean?
+) {
     var showBottomBar by remember {// na navegação para responder as perguntas, a bottomBar deve desaparecer
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     val navController = rememberNavController()
     val starDestination = if (isUserLoggedIn == true) HomeGraphRoute else SignUpRoute
@@ -95,7 +92,10 @@ fun EducaMatApp() {
             navController = navController,
             startDestination = starDestination
         ) {
-            signUpDestination(defaultModifier)
+            signUpDestination(
+                defaultModifier,
+                onNavigateToHome = { navController.navigate(HomeGraphRoute) }// FIXME
+            )
 
             homeGraph(
                 defaultModifier = defaultModifier,

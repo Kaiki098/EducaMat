@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import br.com.kbat.educamat.data.db.dao.AnsweredQuestionDAO
 import br.com.kbat.educamat.data.db.entities.AnsweredQuestionEntity
 
-@Database(entities = [AnsweredQuestionEntity::class], version = 1)
+@Database(entities = [AnsweredQuestionEntity::class], version = 2)
 abstract class EducaMatDatabase : RoomDatabase() {
     abstract fun answeredQuestionDao(): AnsweredQuestionDAO
 }

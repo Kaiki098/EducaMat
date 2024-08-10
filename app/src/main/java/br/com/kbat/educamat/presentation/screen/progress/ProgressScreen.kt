@@ -2,6 +2,7 @@ package br.com.kbat.educamat.presentation.screen.progress
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,12 +16,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
-import br.com.kbat.educamat.presentation.screen.question.Chart
-import br.com.kbat.educamat.presentation.screen.question.QuestionItem
-import br.com.kbat.educamat.presentation.screen.question.QuestionUI
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.utils.ColorUtil
 import org.koin.androidx.compose.koinViewModel
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.util.EnumMap
 
 @Composable
 fun ProgressScreen(
@@ -38,9 +39,21 @@ fun ProgressScreen(
             questionTime = 20,
             description = "Quanto é ${question.expression}?",
             userAnswear = question.answerGiven,
-            correctAnswear = question.correctAnswer
+            correctAnswear = question.correctAnswer,
+            day = question.day
         )
     }
+    Progress(
+        modifier = modifier,
+        questions = questions
+    )
+}
+
+@Composable
+fun Progress(
+    modifier: Modifier = Modifier,
+    questions: List<QuestionUI>
+) {
     Column(
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.background)
@@ -51,7 +64,16 @@ fun ProgressScreen(
             color = MaterialTheme.colorScheme.onBackground,
             fontSize = 32.sp
         )
-        Chart(modifier = Modifier.padding(20.dp))
+        val last7Days = LocalDate.now().minusDays(7)
+        val barHeight = questions
+            .filter { it.day >= last7Days }
+            .groupBy { it.day.dayOfWeek }
+            .mapValues { (_, questions) -> questions.sumOf { it.questionTime }.dp }
+            .toMap(EnumMap(DayOfWeek::class.java)) //FIXME talvez usar um remember / state
+        WeekChart(
+            barHeight = barHeight,
+            modifier = Modifier.padding(20.dp)
+        )
         Text(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp),
             text = "Questões",
@@ -71,7 +93,23 @@ fun ProgressScreen(
 @Composable
 private fun ProgressScreenPreview() {
     EducaMatTheme {
-        ProgressScreen()
+        Progress(
+            modifier = Modifier.fillMaxSize(),
+            List(7) {
+                QuestionUI(
+                    icon = R.drawable.wrong_icon,
+                    iconDescription = "Ícone de questão incorreta",
+                    number = it + 1,
+                    color = ColorUtil.getRandomColor(),
+                    preview = "2 + 2 é...",
+                    questionTime = 20,
+                    description = "Quanto é 2 + 2?",
+                    userAnswear = "4",
+                    correctAnswear = "4",
+                    day = LocalDate.now()
+                )
+            }
+        )
     }
 }
 

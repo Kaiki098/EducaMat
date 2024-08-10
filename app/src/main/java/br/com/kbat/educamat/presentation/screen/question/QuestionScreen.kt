@@ -37,6 +37,7 @@ import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
+import java.time.LocalDate
 
 @Composable
 fun QuestionScreen(
@@ -61,7 +62,8 @@ fun QuestionScreen(
                         options = questions[currentQuestionNumber].options,
                         correctAnswer = questions[currentQuestionNumber].correctAnswer,
                         expression = questions[currentQuestionNumber].expression,
-                        answerGiven = answerGiven
+                        answerGiven = answerGiven,
+                        day = LocalDate.now()
                     )
                 )
                 currentQuestionNumber++
@@ -74,7 +76,8 @@ fun QuestionScreen(
                         options = questions[currentQuestionNumber].options,
                         correctAnswer = questions[currentQuestionNumber].correctAnswer,
                         expression = questions[currentQuestionNumber].expression,
-                        answerGiven = answerGiven
+                        answerGiven = answerGiven,
+                        day = LocalDate.now()
                     )
                 )
                 Toast.makeText(context, "Fim das questões", Toast.LENGTH_LONG).show()

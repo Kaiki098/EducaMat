@@ -49,7 +49,8 @@ fun AnsweredQuestion.toAnsweredQuestionEntity() = AnsweredQuestionEntity(
     answerGiven = this.answerGiven,
     correctAnswer = this.correctAnswer,
     options = this.options,
-    expression = this.expression
+    expression = this.expression,
+    day = this.day
 )
 
 fun AnsweredQuestionEntity.toAnsweredQuestion() = AnsweredQuestion(
@@ -57,5 +58,6 @@ fun AnsweredQuestionEntity.toAnsweredQuestion() = AnsweredQuestion(
     answerGiven = this.answerGiven,
     correctAnswer = this.correctAnswer,
     options = this.options,
-    expression = this.expression
+    expression = this.expression,
+    day = this.day
 )

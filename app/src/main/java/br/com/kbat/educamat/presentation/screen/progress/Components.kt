@@ -132,7 +132,7 @@ private fun QuestionItemPreview() {
 @Composable
 fun WeekChart(
     modifier: Modifier = Modifier,
-    barHeight: EnumMap<DayOfWeek, Dp> //FIXME Rename
+    dailyStatistics: EnumMap<DayOfWeek, Dp>
 ) {
     Box(
         modifier = Modifier
@@ -149,15 +149,13 @@ fun WeekChart(
             verticalAlignment = Alignment.CenterVertically
         ) {
             DayOfWeek.entries.forEach { dayOfWeek ->
-                barHeight[dayOfWeek]?.let { it ->
-                    WeekChartBar(
-                        barHeight = it,
-                        day = dayOfWeek.getDisplayName(
-                            TextStyle.SHORT,
-                            Locale("pt", "BR")
-                        ).replaceFirstChar { char -> char.uppercase() }
-                    )
-                }
+                WeekChartBar(
+                    barHeight = dailyStatistics[dayOfWeek] ?: 0.dp,
+                    day = dayOfWeek.getDisplayName(
+                        TextStyle.SHORT,
+                        Locale("pt", "BR")
+                    ).replaceFirstChar { char -> char.uppercase() }
+                )
             }
         }
     }
@@ -206,7 +204,7 @@ fun WeekChartBar(barHeight: Dp, day: String) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun WeekChartPreview() {
-    val barHeight = EnumMap<DayOfWeek, Dp>(DayOfWeek::class.java).apply {
+    val dailyStatistics = EnumMap<DayOfWeek, Dp>(DayOfWeek::class.java).apply {
         put(DayOfWeek.MONDAY, 50.dp)
         put(DayOfWeek.TUESDAY, 60.dp)
         put(DayOfWeek.WEDNESDAY, 70.dp)
@@ -216,6 +214,6 @@ private fun WeekChartPreview() {
         put(DayOfWeek.SUNDAY, 110.dp)
     }
     EducaMatTheme {
-        WeekChart(barHeight = barHeight)
+        WeekChart(dailyStatistics = dailyStatistics)
     }
 }

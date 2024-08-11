@@ -31,7 +31,7 @@ class QuestionRepository(
         }
     }
 
-    fun createQuestions( // TODO TALVEZ TROCAR PARA CREATE APENAS?
+    fun createQuestions(
         operation: String,
         numberOfQuestions: Int,
         maxValue: Int //Não é inclusivo
@@ -50,7 +50,8 @@ fun AnsweredQuestion.toAnsweredQuestionEntity() = AnsweredQuestionEntity(
     correctAnswer = this.correctAnswer,
     options = this.options,
     expression = this.expression,
-    day = this.day
+    day = this.day,
+    time = this.time
 )
 
 fun AnsweredQuestionEntity.toAnsweredQuestion() = AnsweredQuestion(
@@ -59,5 +60,6 @@ fun AnsweredQuestionEntity.toAnsweredQuestion() = AnsweredQuestion(
     correctAnswer = this.correctAnswer,
     options = this.options,
     expression = this.expression,
-    day = this.day
+    day = this.day,
+    time = this.time
 )

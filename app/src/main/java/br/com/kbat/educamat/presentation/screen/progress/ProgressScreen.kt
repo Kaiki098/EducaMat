@@ -11,8 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
@@ -29,30 +31,37 @@ fun ProgressScreen(
     viewModel: ProgressViewModel = koinViewModel()
 ) {
     val answeredQuestions by viewModel.answeredQuestions.collectAsState()
-    val questions = answeredQuestions.map { question -> // TODO Arrumar um UIState pra cá
-        QuestionUI(
-            icon = if (question.correctAnswer == question.answerGiven) R.drawable.correct_icon else R.drawable.wrong_icon,
-            iconDescription = if (question.correctAnswer == question.answerGiven) "Ícone de questão correta" else "Ícone de questão incorreta",
-            number = question.id,
-            color = ColorUtil.getRandomColor(),
-            preview = "${question.expression} é...",
-            questionTime = 20,
-            description = "Quanto é ${question.expression}?",
-            userAnswear = question.answerGiven,
-            correctAnswear = question.correctAnswer,
-            day = question.day
-        )
+    val questions = remember(answeredQuestions) {
+        answeredQuestions.map { question -> // TODO Arrumar um UIState pra cá
+            QuestionUI(
+                icon = if (question.correctAnswer == question.answerGiven) R.drawable.correct_icon else R.drawable.wrong_icon,
+                iconDescription = if (question.correctAnswer == question.answerGiven) "Ícone de questão correta" else "Ícone de questão incorreta",
+                number = question.id,
+                color = ColorUtil.getRandomColor(),
+                preview = "${question.expression} é...",
+                questionTime = question.time,
+                description = "Quanto é ${question.expression}?",
+                userAnswear = question.answerGiven,
+                correctAnswear = question.correctAnswer,
+                day = question.day
+            )
+        }
+    }
+    val dailyStatistics = remember(answeredQuestions) {
+        viewModel.getDailyStatistics()
     }
     Progress(
         modifier = modifier,
-        questions = questions
+        questions = questions,
+        dailyStatistics = dailyStatistics
     )
 }
 
 @Composable
 fun Progress(
     modifier: Modifier = Modifier,
-    questions: List<QuestionUI>
+    questions: List<QuestionUI>,
+    dailyStatistics: EnumMap<DayOfWeek, Dp>
 ) {
     Column(
         modifier = modifier
@@ -64,14 +73,8 @@ fun Progress(
             color = MaterialTheme.colorScheme.onBackground,
             fontSize = 32.sp
         )
-        val last7Days = LocalDate.now().minusDays(7)
-        val barHeight = questions
-            .filter { it.day >= last7Days }
-            .groupBy { it.day.dayOfWeek }
-            .mapValues { (_, questions) -> questions.sumOf { it.questionTime }.dp }
-            .toMap(EnumMap(DayOfWeek::class.java)) //FIXME talvez usar um remember / state
         WeekChart(
-            barHeight = barHeight,
+            dailyStatistics = dailyStatistics,
             modifier = Modifier.padding(20.dp)
         )
         Text(
@@ -79,8 +82,6 @@ fun Progress(
             text = "Questões",
             fontSize = 32.sp
         )
-
-
         LazyColumn {
             items(questions) { question ->
                 QuestionItem(question = question)
@@ -92,23 +93,30 @@ fun Progress(
 @Preview(showBackground = true)
 @Composable
 private fun ProgressScreenPreview() {
+    val questions = List(7) {
+        QuestionUI(
+            icon = R.drawable.wrong_icon,
+            iconDescription = "Ícone de questão incorreta",
+            number = it + 1,
+            color = ColorUtil.getRandomColor(),
+            preview = "2 + 2 é...",
+            questionTime = 20,
+            description = "Quanto é 2 + 2?",
+            userAnswear = "4",
+            correctAnswear = "4",
+            day = LocalDate.now()
+        )
+    }
+    val dailyStatistics = questions
+        .groupBy { it.day.dayOfWeek }
+        .mapValues { (_, questions) -> questions.sumOf { it.questionTime }.dp }
+        .toMap(EnumMap(DayOfWeek::class.java))
+
     EducaMatTheme {
         Progress(
             modifier = Modifier.fillMaxSize(),
-            List(7) {
-                QuestionUI(
-                    icon = R.drawable.wrong_icon,
-                    iconDescription = "Ícone de questão incorreta",
-                    number = it + 1,
-                    color = ColorUtil.getRandomColor(),
-                    preview = "2 + 2 é...",
-                    questionTime = 20,
-                    description = "Quanto é 2 + 2?",
-                    userAnswear = "4",
-                    correctAnswear = "4",
-                    day = LocalDate.now()
-                )
-            }
+            questions = questions,
+            dailyStatistics = dailyStatistics
         )
     }
 }

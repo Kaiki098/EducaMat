@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -46,7 +47,7 @@ fun QuestionScreen(
     questionViewModel: QuestionViewModel = koinViewModel(),
     context: Context = koinInject()
 ) {// TODO Adicionar UIState
-    val questions by questionViewModel.questions.collectAsState() // TODO Adicionar funcionalidade de cronômetro talvez
+    val questions by questionViewModel.questions.collectAsState() // TODO Adicionar ícone de cronômetro talvez
     var currentQuestionNumber by remember {
         mutableIntStateOf(0)
     }
@@ -54,6 +55,17 @@ fun QuestionScreen(
         "Quanto é ${questions[currentQuestionNumber].expression}?" //TODO Da pra diminuir esse código
 
     val scope = rememberCoroutineScope()
+
+    var timer by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(currentQuestionNumber) {
+        timer = 0
+        while (true) {
+            kotlinx.coroutines.delay(1000L)
+            timer++
+        }
+    }
+
     val onClick: (String) -> Unit = { answerGiven ->
         if (currentQuestionNumber < questions.size - 1) {
             scope.launch {
@@ -63,11 +75,11 @@ fun QuestionScreen(
                         correctAnswer = questions[currentQuestionNumber].correctAnswer,
                         expression = questions[currentQuestionNumber].expression,
                         answerGiven = answerGiven,
-                        day = LocalDate.now()
+                        day = LocalDate.now(),
+                        time = timer
                     )
                 )
                 currentQuestionNumber++
-                Toast.makeText(context, "Resposta dada: $answerGiven", Toast.LENGTH_SHORT).show()
             }
         } else {
             scope.launch {
@@ -77,7 +89,8 @@ fun QuestionScreen(
                         correctAnswer = questions[currentQuestionNumber].correctAnswer,
                         expression = questions[currentQuestionNumber].expression,
                         answerGiven = answerGiven,
-                        day = LocalDate.now()
+                        day = LocalDate.now(),
+                        time = timer
                     )
                 )
                 Toast.makeText(context, "Fim das questões", Toast.LENGTH_LONG).show()

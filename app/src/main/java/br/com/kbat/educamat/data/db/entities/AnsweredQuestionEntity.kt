@@ -15,5 +15,6 @@ data class AnsweredQuestionEntity(
     val options: List<String>,
     val correctAnswer: String,
     val answerGiven: String,
-    val day: LocalDate
+    val day: LocalDate,
+    val time: Int
 )

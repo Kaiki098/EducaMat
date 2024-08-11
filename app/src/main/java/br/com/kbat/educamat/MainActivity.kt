@@ -20,12 +20,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var isWorkDone = false;
+        var isWorkDone = false
 
+        enableEdgeToEdge()
         installSplashScreen().setKeepOnScreenCondition { //TODO talvez tenha um modo melhor que esse
             !isWorkDone
         }
-        enableEdgeToEdge()
 
         CoroutineScope(Dispatchers.Main).launch {
             val isUserLoggedIn = userPreferences.isUserLoggedIn.first()

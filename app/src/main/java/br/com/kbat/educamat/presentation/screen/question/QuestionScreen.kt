@@ -131,10 +131,10 @@ fun Question(
 
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.3f)
+                    .background(color = Color.White, shape = RoundedCornerShape(20))
                     .border(width = 10.dp, color = Orange, shape = RoundedCornerShape(20))
-                    .background(color = Color.White),
+                    .fillMaxWidth()
+                    .weight(0.3f),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

@@ -16,9 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Orange
 
 @Composable
@@ -40,7 +42,7 @@ fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                     .fillMaxWidth()
                     .weight(0.3f)
                     .border(width = 10.dp, color = Orange, shape = RoundedCornerShape(20))
-                    .background(color = Color.White),
+                    .background(color = Color.White, shape = RoundedCornerShape(20)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(text = "Teoria", fontSize = 24.sp)
@@ -49,5 +51,13 @@ fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
 
         }
 
+    }
+}
+
+@Preview
+@Composable
+private fun TheoryPreview() {
+    EducaMatTheme {
+        TheoryScreen(onBackClick = {})
     }
 }

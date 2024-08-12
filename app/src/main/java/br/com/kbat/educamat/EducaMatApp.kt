@@ -3,6 +3,7 @@ package br.com.kbat.educamat
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,6 +48,7 @@ import br.com.kbat.educamat.presentation.navigation.questionDestination
 import br.com.kbat.educamat.presentation.navigation.signUpDestination
 import br.com.kbat.educamat.presentation.navigation.theoryDestination
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.LightOrange
 
 
 @Composable
@@ -168,12 +170,14 @@ fun BottomBar(navController: NavHostController) {
     val currentDestination = currentBackStack?.destination?.route
 
     BottomAppBar(
-        modifier = Modifier.clip(
-            shape = RoundedCornerShape(
-                topStartPercent = 30,
-                topEndPercent = 30
-            )
-        ),
+        modifier = Modifier
+            .background(color = LightOrange)
+            .clip(
+                shape = RoundedCornerShape(
+                    topStartPercent = 30,
+                    topEndPercent = 30
+                )
+            ),
         actions = {
             items.forEach { item ->
                 NavigationBarItem(
@@ -212,7 +216,7 @@ fun BottomBar(navController: NavHostController) {
     )
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun BottomBarPreview() {
     val navController: NavHostController = rememberNavController()

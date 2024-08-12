@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -192,7 +191,6 @@ fun WeekChartBar(barHeight: Dp, day: String) {
                     transformOrigin = TransformOrigin(0.5f, 0.5f)
                 },
             text = day,
-            fontFamily = FontFamily.SansSerif,
             fontSize = 10.sp,
             color = Color(0xFF666666)
         )

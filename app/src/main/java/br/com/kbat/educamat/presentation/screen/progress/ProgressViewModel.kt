@@ -23,7 +23,6 @@ class ProgressViewModel(
             .groupBy { it.day.dayOfWeek }
             .mapValues { (_, questions) -> questions.sumOf { it.time }.dp }
             .toMap(EnumMap(DayOfWeek::class.java))
-
     }
 
 }

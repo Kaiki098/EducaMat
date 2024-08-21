@@ -11,17 +11,26 @@ import java.time.LocalDate
 import java.util.EnumMap
 
 class ProgressViewModel(
-    private val questionRepository: QuestionRepository
+    questionRepository: QuestionRepository
 ) : ViewModel() {
 
     val answeredQuestions: StateFlow<List<AnsweredQuestion>> = questionRepository.answeredQuestions
 
     fun getDailyStatistics(): EnumMap<DayOfWeek, Dp> {
         val last7Days = LocalDate.now().minusDays(7)
-        return answeredQuestions.value
+        val recentQuestions = answeredQuestions.value
             .filter { it.day >= last7Days }
             .groupBy { it.day.dayOfWeek }
-            .mapValues { (_, questions) -> questions.sumOf { it.time }.dp }
+            .mapValues { (_, question) -> question.sumOf { it.time } }
+
+        var maxValue = 100
+        if (recentQuestions.isNotEmpty()) {
+            maxValue = recentQuestions.maxOf { it.value }
+        }
+        val scaleFactor = if (maxValue > 100) 100.0 / maxValue else 1.0
+
+        return recentQuestions
+            .mapValues { (_, dayStatistic) -> (dayStatistic * scaleFactor).dp }
             .toMap(EnumMap(DayOfWeek::class.java))
     }
 

@@ -51,6 +51,7 @@ object QuestionGenerator {
         while (options.size < 4) {
             options.add(
                 when (operation) {
+                    "addition" -> Random.nextInt(maxValue) + Random.nextInt(maxValue)
                     "subtraction" -> Random.nextInt(maxValue) - Random.nextInt(maxValue)
                     "multiplication" -> Random.nextInt(maxValue) * Random.nextInt(maxValue)
                     "division" -> Random.nextInt(maxValue) / Random.nextInt(maxValue).toFloat()

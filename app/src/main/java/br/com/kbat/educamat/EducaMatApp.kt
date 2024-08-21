@@ -42,6 +42,7 @@ import br.com.kbat.educamat.presentation.navigation.SettingsRoute
 import br.com.kbat.educamat.presentation.navigation.SignUpRoute
 import br.com.kbat.educamat.presentation.navigation.TheoriesRoute
 import br.com.kbat.educamat.presentation.navigation.homeGraph
+import br.com.kbat.educamat.presentation.navigation.navigateToHome
 import br.com.kbat.educamat.presentation.navigation.navigateToQuestion
 import br.com.kbat.educamat.presentation.navigation.navigateToTheory
 import br.com.kbat.educamat.presentation.navigation.questionDestination
@@ -96,7 +97,9 @@ fun EducaMatApp(
         ) {
             signUpDestination(
                 defaultModifier,
-                onNavigateToHome = { navController.navigate(HomeGraphRoute) }// FIXME
+                onNavigateToHome = {
+                    navController.navigateToHome()
+                }
             )
 
             homeGraph(

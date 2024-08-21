@@ -2,6 +2,7 @@ package br.com.kbat.educamat.presentation.navigation
 
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import br.com.kbat.educamat.presentation.screen.singUp.SignUpScreen
 
@@ -14,4 +15,8 @@ fun NavGraphBuilder.signUpDestination(
     composable(route = SignUpRoute) {
         SignUpScreen(defaultModifier, onNavigateToHome)
     }
+}
+
+fun NavHostController.navigateToHome() {
+    navigate(HomeGraphRoute)
 }

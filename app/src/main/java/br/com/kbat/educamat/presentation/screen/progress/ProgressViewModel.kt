@@ -19,12 +19,11 @@ import java.util.EnumMap
 data class ProgressUIState(
     val questions: List<QuestionUI> = emptyList(),
     val dailyStatistics: EnumMap<DayOfWeek, Dp> = EnumMap(DayOfWeek::class.java),
-    val isLoading: Boolean = true,
-    val errorMessage: String? = null
+    val isLoading: Boolean = true
 )
 
 class ProgressViewModel(
-    questionRepository: QuestionRepository
+    val questionRepository: QuestionRepository
 ) : ViewModel() { // TODO Revisar implementação
 
     private val _uiState = MutableStateFlow(ProgressUIState())
@@ -67,4 +66,9 @@ class ProgressViewModel(
             .toMap(EnumMap(DayOfWeek::class.java))
     }
 
+    fun deleteQuestion(id: Int) {
+        viewModelScope.launch {
+            questionRepository.deleteById(id = id)
+        }
+    }
 }

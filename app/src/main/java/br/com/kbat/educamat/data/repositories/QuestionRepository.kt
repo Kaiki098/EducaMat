@@ -42,6 +42,10 @@ class QuestionRepository(
     suspend fun save(answeredQuestion: AnsweredQuestion) = withContext(Dispatchers.IO) {
         dao.save(answeredQuestion.toAnsweredQuestionEntity())
     }
+
+    suspend fun deleteById(id: Int) {
+        dao.deleteById(id)
+    }
 }
 
 fun AnsweredQuestion.toAnsweredQuestionEntity() = AnsweredQuestionEntity(

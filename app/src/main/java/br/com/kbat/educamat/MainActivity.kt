@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
             val isUserLoggedIn = userPreferences.isUserLoggedIn.first()
             setContent {
                 EducaMatTheme {
-                    EducaMatApp(isUserLoggedIn = isUserLoggedIn)
+                    EducaMatApp(isUserLoggedIn = isUserLoggedIn) //FIXME rotação horizontal
                 }
             }
             isWorkDone = true

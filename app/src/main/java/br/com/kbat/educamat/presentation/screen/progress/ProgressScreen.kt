@@ -41,7 +41,8 @@ fun ProgressScreen(
         Progress(
             modifier = modifier,
             questions = uiState.questions,
-            dailyStatistics = uiState.dailyStatistics
+            dailyStatistics = uiState.dailyStatistics,
+            onDeleteQuestion = { id -> viewModel.deleteQuestion(id) }
         )
     }
 }
@@ -61,7 +62,8 @@ fun LoadingProgress(modifier: Modifier = Modifier) {
 fun Progress(
     modifier: Modifier = Modifier,
     questions: List<QuestionUI>,
-    dailyStatistics: EnumMap<DayOfWeek, Dp>
+    dailyStatistics: EnumMap<DayOfWeek, Dp>,
+    onDeleteQuestion: (Int) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -90,8 +92,13 @@ fun Progress(
             )
         }
         LazyColumn {
-            items(questions) { question ->
-                QuestionItem(question = question)
+            items(questions, key = {
+                it.number
+            }) { question ->
+                QuestionItem(
+                    question = question,
+                    onDeleteQuestion = onDeleteQuestion
+                )
             }
         }
     }
@@ -131,7 +138,8 @@ private fun ProgressScreenPreview() {
         Progress(
             modifier = Modifier.fillMaxSize(),
             questions = questions,
-            dailyStatistics = dailyStatistics
+            dailyStatistics = dailyStatistics,
+            onDeleteQuestion = {}
         )
     }
 }

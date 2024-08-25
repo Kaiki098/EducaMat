@@ -15,4 +15,7 @@ interface AnsweredQuestionDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(question: AnsweredQuestionEntity)
+
+    @Query("DELETE FROM AnsweredQuestionEntity WHERE id = :id")
+    suspend fun deleteById(id: Int)
 }

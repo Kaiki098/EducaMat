@@ -10,15 +10,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,52 +51,94 @@ import java.time.format.TextStyle
 import java.util.EnumMap
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionItem(
     modifier: Modifier = Modifier,
-    question: QuestionUI
-) { // TODO implement delete functionality
+    question: QuestionUI,
+    onDeleteQuestion: (Int) -> Unit
+) { // FIXME refactor it
     var showQuestion by remember {
         mutableStateOf(false)
     }
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { showQuestion = !showQuestion }
-            .padding(horizontal = 20.dp, vertical = 10.dp)
+    val swipeState = rememberSwipeToDismissBoxState(
+        positionalThreshold = { fullWidth -> fullWidth / 2 }
+    )
+
+    LaunchedEffect(key1 = swipeState.currentValue) {
+        if (swipeState.currentValue == SwipeToDismissBoxValue.EndToStart) {
+            onDeleteQuestion(question.number)
+        }
+    }
+    SwipeToDismissBox(
+        state = swipeState,
+        backgroundContent = {
+            when (swipeState.dismissDirection) {
+                SwipeToDismissBoxValue.EndToStart -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = Color.Red.copy(alpha = 0.1f)),
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        Icon(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete"
+                        )
+                    }
+
+                }
+
+                else -> {}
+            }
+        },
+        enableDismissFromStartToEnd = false
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            modifier = modifier
+                .background(color = MaterialTheme.colorScheme.background)
+                .fillMaxWidth()
+                .clickable { showQuestion = !showQuestion }
+                .padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    modifier = Modifier.padding(end = 8.dp),
-                    painter = painterResource(id = question.icon),
-                    contentDescription = question.iconDescription,
-                    tint = if (question.icon == R.drawable.wrong_icon) Color.Red else Color.Green
-                )
-                Text(text = "Q${question.number}", color = Color(question.color), fontSize = 24.sp)
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = question.preview,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 20.sp
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(end = 8.dp),
+                        painter = painterResource(id = question.icon),
+                        contentDescription = question.iconDescription,
+                        tint = if (question.icon == R.drawable.wrong_icon) Color.Red else Color.Green
+                    )
+                    Text(
+                        text = "Q${question.number}",
+                        color = Color(question.color),
+                        fontSize = 24.sp
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = question.preview,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 20.sp
+                    )
+                }
+                Box {
+                    Text(text = "Tempo: ${question.questionTime}", fontSize = 20.sp)
+                }
             }
-            Box {
-                Text(text = "Tempo: ${question.questionTime}", fontSize = 20.sp)
-            }
-        }
-        AnimatedVisibility(visible = showQuestion) {
-            Column(
-                modifier = Modifier.padding(horizontal = 10.dp)
-            ) {
-                Text(text = question.description, fontSize = 20.sp)
-                Text(text = "Sua resposta: " + question.userAnswear, fontSize = 20.sp)
-                Text(text = "Resposta correta: " + question.correctAnswear, fontSize = 20.sp)
+            AnimatedVisibility(visible = showQuestion) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                ) {
+                    Text(text = question.description, fontSize = 20.sp)
+                    Text(text = "Sua resposta: " + question.userAnswear, fontSize = 20.sp)
+                    Text(text = "Resposta correta: " + question.correctAnswear, fontSize = 20.sp)
+                }
             }
         }
     }
@@ -126,7 +175,7 @@ private fun QuestionItemPreview() {
                 correctAnswear = "6",
                 day = LocalDate.now()
             )
-        )
+        ) {}
     }
 }
 

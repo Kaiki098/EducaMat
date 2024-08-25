@@ -2,6 +2,7 @@ package br.com.kbat.educamat.presentation.screen.progress
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +48,7 @@ import java.util.Locale
 fun QuestionItem(
     modifier: Modifier = Modifier,
     question: QuestionUI
-) {
+) { // TODO implement delete functionality
     var showQuestion by remember {
         mutableStateOf(false)
     }
@@ -104,7 +106,7 @@ data class QuestionUI(
     val userAnswear: String,
     val correctAnswear: String,
     val day: LocalDate
-)
+)// FIXME UIState
 
 @Preview(showBackground = true)
 @Composable
@@ -161,10 +163,22 @@ fun WeekChart(
 
 }
 
-
 @Composable
 fun WeekChartBar(barHeight: Dp, day: String) {
-    val animatedHeight by animateDpAsState(targetValue = barHeight, label = "height")
+    var targetValue by remember {
+        mutableStateOf(0.dp)
+    }
+
+    val animatedHeight by animateDpAsState(
+        targetValue = targetValue,
+        label = "height",
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    LaunchedEffect(key1 = barHeight) {
+        targetValue = barHeight
+    }
+
     Column(
         Modifier.background(color = Color(0XFFE7E9C4)),
         horizontalAlignment = Alignment.CenterHorizontally

@@ -97,7 +97,6 @@ fun Progress(
 @Preview(showBackground = true)
 @Composable
 private fun ProgressScreenPreview() {
-    var cont = 1;
     val questions = List(7) {
         QuestionUI(
             icon = R.drawable.wrong_icon,
@@ -109,7 +108,7 @@ private fun ProgressScreenPreview() {
             description = "Quanto é 2 + 2?",
             userAnswear = "4",
             correctAnswear = "4",
-            day = LocalDate.of(2024, 8, cont++)
+            day = LocalDate.now()
         )
     }
     val dailyStatistics = questions
@@ -125,7 +124,3 @@ private fun ProgressScreenPreview() {
         )
     }
 }
-
-/* Essa funcinalidade das cores aleatórias,
-podem ser apagadas, era só teste
- */

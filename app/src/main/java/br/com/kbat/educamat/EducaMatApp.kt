@@ -159,7 +159,7 @@ sealed class HomeNavItem(
 
 
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun BottomBar(navController: NavHostController) { //TODO Deixar isso em components?
     val items = remember {
         listOf(
             HomeNavItem.Progress,

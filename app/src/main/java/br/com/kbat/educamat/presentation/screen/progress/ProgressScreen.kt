@@ -24,6 +24,7 @@ import org.koin.androidx.compose.koinViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.util.EnumMap
+import kotlin.random.Random
 
 @Composable
 fun ProgressScreen(
@@ -82,6 +83,9 @@ fun Progress(
             text = "Questões",
             fontSize = 32.sp
         )
+        if (questions.isEmpty()) {
+            Text(modifier = Modifier.padding(horizontal = 20.dp), text = "Não há questões respondidas", fontSize = 18.sp)
+        }
         LazyColumn {
             items(questions) { question ->
                 QuestionItem(question = question)
@@ -93,6 +97,7 @@ fun Progress(
 @Preview(showBackground = true)
 @Composable
 private fun ProgressScreenPreview() {
+    var cont = 1;
     val questions = List(7) {
         QuestionUI(
             icon = R.drawable.wrong_icon,
@@ -100,11 +105,11 @@ private fun ProgressScreenPreview() {
             number = it + 1,
             color = ColorUtil.getRandomColor(),
             preview = "2 + 2 é...",
-            questionTime = 20,
+            questionTime = Random.nextInt(5,100),
             description = "Quanto é 2 + 2?",
             userAnswear = "4",
             correctAnswear = "4",
-            day = LocalDate.now()
+            day = LocalDate.of(2024, 8, cont++)
         )
     }
     val dailyStatistics = questions

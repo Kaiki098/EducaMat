@@ -1,17 +1,19 @@
 package br.com.kbat.educamat.presentation.screen.progress
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -31,31 +33,28 @@ fun ProgressScreen(
     modifier: Modifier = Modifier,
     viewModel: ProgressViewModel = koinViewModel()
 ) {
-    val answeredQuestions by viewModel.answeredQuestions.collectAsState()
-    val questions = remember(answeredQuestions) {
-        answeredQuestions.map { question -> // TODO Arrumar um UIState pra cá
-            QuestionUI(
-                icon = if (question.correctAnswer == question.answerGiven) R.drawable.correct_icon else R.drawable.wrong_icon,
-                iconDescription = if (question.correctAnswer == question.answerGiven) "Ícone de questão correta" else "Ícone de questão incorreta",
-                number = question.id,
-                color = ColorUtil.getRandomColor(),
-                preview = "${question.expression} é...",
-                questionTime = question.time,
-                description = "Quanto é ${question.expression}?",
-                userAnswear = question.answerGiven,
-                correctAnswear = question.correctAnswer,
-                day = question.day
-            )
-        }
+    val uiState by viewModel.uiState.collectAsState()
+
+    if (uiState.isLoading) {
+        LoadingProgress(modifier)
+    } else {
+        Progress(
+            modifier = modifier,
+            questions = uiState.questions,
+            dailyStatistics = uiState.dailyStatistics
+        )
     }
-    val dailyStatistics = remember(answeredQuestions) {
-        viewModel.getDailyStatistics()
+}
+
+@Composable
+fun LoadingProgress(modifier: Modifier = Modifier) {
+    Column(
+        modifier.background(color = MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator() // Se começar a demorar de mais, crie um skeleton
     }
-    Progress(
-        modifier = modifier,
-        questions = questions,
-        dailyStatistics = dailyStatistics
-    )
 }
 
 @Composable
@@ -84,13 +83,25 @@ fun Progress(
             fontSize = 32.sp
         )
         if (questions.isEmpty()) {
-            Text(modifier = Modifier.padding(horizontal = 20.dp), text = "Não há questões respondidas", fontSize = 18.sp)
+            Text(
+                modifier = Modifier.padding(horizontal = 20.dp),
+                text = "Não há questões respondidas",
+                fontSize = 18.sp
+            )
         }
         LazyColumn {
             items(questions) { question ->
                 QuestionItem(question = question)
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LoadingPreview() {
+    EducaMatTheme {
+        LoadingProgress()
     }
 }
 
@@ -104,7 +115,7 @@ private fun ProgressScreenPreview() {
             number = it + 1,
             color = ColorUtil.getRandomColor(),
             preview = "2 + 2 é...",
-            questionTime = Random.nextInt(5,100),
+            questionTime = Random.nextInt(5, 100),
             description = "Quanto é 2 + 2?",
             userAnswear = "4",
             correctAnswear = "4",

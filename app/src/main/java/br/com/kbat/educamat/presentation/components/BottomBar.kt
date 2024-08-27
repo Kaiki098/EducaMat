@@ -29,7 +29,6 @@ import br.com.kbat.educamat.presentation.navigation.QuestionsRoute
 import br.com.kbat.educamat.presentation.navigation.SettingsRoute
 import br.com.kbat.educamat.presentation.navigation.TheoriesRoute
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
-import br.com.kbat.educamat.presentation.theme.LightOrange
 
 
 sealed class HomeNavItem(
@@ -79,7 +78,7 @@ fun BottomBar(navController: NavHostController) {
 
     BottomAppBar(
         modifier = Modifier
-            .background(color = LightOrange)
+            .background(color = MaterialTheme.colorScheme.background)
             .clip(
                 shape = RoundedCornerShape(
                     topStartPercent = 30,

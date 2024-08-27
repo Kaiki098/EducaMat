@@ -22,19 +22,20 @@ fun OperationButton(
     modifier: Modifier = Modifier,
     onStartClick: () -> Unit,
     borderColor: Color,
-    text: String
+    text: String,
+    colors: ButtonColors = ButtonColors(
+        containerColor = Color.White,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        disabledContentColor = Color.White,
+        disabledContainerColor = Color.White
+    )
 ) {
 
     Button(
         modifier = modifier,
         onClick = { onStartClick() },
         shape = RoundedCornerShape(10),
-        colors = ButtonColors(
-            containerColor = Color.White,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            disabledContentColor = Color.White,
-            disabledContainerColor = Color.White
-        ),
+        colors = colors,
         border = BorderStroke(10.dp, color = borderColor)
     ) {
         Text(

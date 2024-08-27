@@ -14,6 +14,14 @@ private val OrangeColorScheme = customColorScheme(
     onSurface = Gray
 )
 
+private val BlueColorScheme = customColorScheme(
+    primary = Blue,
+    onPrimary = Color.Black,
+    background = LightBlue,
+    onBackground = Color.Black,
+    onSurface = Gray
+)
+
 @Composable
 fun EducaMatTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -28,7 +36,7 @@ fun EducaMatTheme(
 //        }
 
         darkTheme -> OrangeColorScheme
-        else -> OrangeColorScheme
+        else -> BlueColorScheme
     }
 
     MaterialTheme(

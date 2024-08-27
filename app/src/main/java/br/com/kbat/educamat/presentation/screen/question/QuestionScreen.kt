@@ -8,16 +8,24 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -33,7 +41,8 @@ import br.com.kbat.educamat.R
 import br.com.kbat.educamat.domain.model.AnsweredQuestion
 import br.com.kbat.educamat.presentation.screen.questions.QuestionChoice
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
-import br.com.kbat.educamat.presentation.theme.Orange
+import br.com.kbat.educamat.presentation.theme.Green
+import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -67,45 +76,37 @@ fun QuestionScreen(
     }
 
     val onClick: (String) -> Unit = { answerGiven ->
-        if (currentQuestionNumber < questions.size - 1) {
-            scope.launch {
-                questionViewModel.save(
-                    AnsweredQuestion(
-                        options = questions[currentQuestionNumber].options,
-                        correctAnswer = questions[currentQuestionNumber].correctAnswer,
-                        expression = questions[currentQuestionNumber].expression,
-                        answerGiven = answerGiven,
-                        day = LocalDate.now(),
-                        time = timer
-                    )
+        scope.launch {
+            questionViewModel.save(
+                AnsweredQuestion(
+                    options = questions[currentQuestionNumber].options,
+                    correctAnswer = questions[currentQuestionNumber].correctAnswer,
+                    expression = questions[currentQuestionNumber].expression,
+                    answerGiven = answerGiven,
+                    day = LocalDate.now(),
+                    time = timer
                 )
+            )
+            if (currentQuestionNumber < questions.size - 1) {
                 currentQuestionNumber++
-            }
-        } else {
-            scope.launch {
-                questionViewModel.save(
-                    AnsweredQuestion(
-                        options = questions[currentQuestionNumber].options,
-                        correctAnswer = questions[currentQuestionNumber].correctAnswer,
-                        expression = questions[currentQuestionNumber].expression,
-                        answerGiven = answerGiven,
-                        day = LocalDate.now(),
-                        time = timer
-                    )
-                )
+            } else {
                 Toast.makeText(context, "Fim das questões", Toast.LENGTH_LONG).show()
                 onBackClick()
             }
         }
+
     }
 
-    val optionText = questions[currentQuestionNumber].options
+    val options = questions[currentQuestionNumber].options
 
     Question(
         modifier = modifier,
         questionText = questionText,
         onClick = onClick,
-        optionText = optionText
+        options = options,
+        timer = timer,
+        questionIndex = "${currentQuestionNumber + 1}/${questions.size}",
+        correctAnswer = questions[currentQuestionNumber].correctAnswer
     )
 }
 
@@ -114,7 +115,10 @@ fun Question(
     modifier: Modifier = Modifier,
     questionText: String,
     onClick: (String) -> Unit,
-    optionText: List<String>
+    options: List<String>,
+    timer: Int,
+    questionIndex: String,
+    correctAnswer: String
 ) {
     Box {
         Image(
@@ -132,15 +136,39 @@ fun Question(
             Box(
                 modifier = Modifier
                     .background(color = Color.White, shape = RoundedCornerShape(20))
-                    .border(width = 10.dp, color = Orange, shape = RoundedCornerShape(20))
+                    .border(
+                        width = 10.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(20)
+                    )
                     .fillMaxWidth()
-                    .weight(0.3f),
-                contentAlignment = Alignment.Center
+                    .weight(0.3f)
             ) {
-                Text(
-                    text = questionText,
-                    fontSize = 24.sp
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 14.dp, horizontal = 26.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = questionIndex, fontSize = 18.sp)
+                    Row {
+                        Text(text = "$timer", fontSize = 18.sp)
+                        Icon(
+                            imageVector = Icons.Default.Schedule,
+                            contentDescription = "Ícone de relógio"
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = questionText,
+                        fontSize = 24.sp
+                    )
+                }
             }
 
             Column(
@@ -149,14 +177,33 @@ fun Question(
                     .padding(vertical = 60.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                List(4) { i ->
+                val optionStates = remember { mutableStateMapOf<String, Color>() }
+                options.forEach { option ->
+                    val currentColor =
+                        optionStates[option] ?: ButtonDefaults.buttonColors().containerColor
+                    var optionText by remember(questionText) {
+                        mutableStateOf(option)
+                    }
                     QuestionChoice(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        onClick = { onClick(optionText[i]) },
-                        text = optionText[i]
+                        onClick = {
+                            if (option == correctAnswer) {
+                                optionStates[option] = Green
+                                optionText = "✓ $optionText"
+                            } else {
+                                optionStates[option] = Red
+                                optionText = "X $optionText"
+                            }
+                            onClick(option)
+                        },
+                        text = optionText,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = currentColor
+                        )
                     )
+
                 }
             }
         }
@@ -171,7 +218,10 @@ private fun QuestionScreenPreview() {
             modifier = Modifier.fillMaxSize(),
             questionText = "Quanto é 2 + 2?",
             onClick = { },
-            optionText = List(4) { i -> i.toString() }
+            options = List(4) { i -> i.toString() },
+            10,
+            "1/10",
+            ""
         )
     }
 }

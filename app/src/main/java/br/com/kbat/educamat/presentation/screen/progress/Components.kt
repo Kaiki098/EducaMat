@@ -189,7 +189,7 @@ fun WeekChart(
             .padding(20.dp)
             .fillMaxWidth()
             .heightIn(min = 150.dp)
-            .background(Color(0xFFE7E9C4), shape = RoundedCornerShape(20.dp))
+            .background(MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(20.dp))
     ) {
         Row(
             Modifier
@@ -229,7 +229,7 @@ fun WeekChartBar(barHeight: Dp, day: String) {
     }
 
     Column(
-        Modifier.background(color = Color(0XFFE7E9C4)),
+        Modifier.background(color = MaterialTheme.colorScheme.onSurface),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -243,7 +243,10 @@ fun WeekChartBar(barHeight: Dp, day: String) {
                 modifier = Modifier
                     .width(16.dp)
                     .height(animatedHeight)
-                    .background(color = Color(0xFFEC6C2B), shape = RoundedCornerShape(20.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(20.dp)
+                    )
             )
         }
         Spacer(modifier = Modifier.height(10.dp))

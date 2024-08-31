@@ -14,6 +14,7 @@ class QuestionViewModel(
 
     val questions: StateFlow<List<Question>> = questionRepository.questions
 
+    // TODO tratar exceções
     fun loadQuestions(operation: String, numberOfQuestions: Int, maxValue: Int) {
         questionRepository.createQuestions(operation, numberOfQuestions, maxValue)
     }

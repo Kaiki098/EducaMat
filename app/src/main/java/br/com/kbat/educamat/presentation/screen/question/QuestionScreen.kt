@@ -1,7 +1,10 @@
 package br.com.kbat.educamat.presentation.screen.question
 
 import android.content.Context
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -44,6 +47,7 @@ import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Green
 import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -57,20 +61,16 @@ fun QuestionScreen(
     context: Context = koinInject()
 ) {// TODO Adicionar UIState
     val questions by questionViewModel.questions.collectAsState() // TODO Adicionar ícone de cronômetro talvez
-    var currentQuestionNumber by remember {
-        mutableIntStateOf(0)
-    }
+    var currentQuestionNumber by remember { mutableIntStateOf(0) }
     val questionText =
         "Quanto é ${questions[currentQuestionNumber].expression}?" //TODO Da pra diminuir esse código
-
     val scope = rememberCoroutineScope()
-
     var timer by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(currentQuestionNumber) {
         timer = 0
         while (true) {
-            kotlinx.coroutines.delay(1000L)
+            delay(1000L)
             timer++
         }
     }
@@ -108,6 +108,7 @@ fun QuestionScreen(
         questionIndex = "${currentQuestionNumber + 1}/${questions.size}",
         correctAnswer = questions[currentQuestionNumber].correctAnswer
     )
+
 }
 
 @Composable
@@ -175,44 +176,88 @@ fun Question(
                 modifier = Modifier
                     .weight(0.7f)
                     .padding(vertical = 60.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val optionStates = remember { mutableStateMapOf<String, Color>() }
+                val optionColorStates =
+                    remember(questionIndex) { mutableStateMapOf<String, Color>() }
+                val optionTextStates =
+                    remember(questionIndex) { mutableStateMapOf<String, String>() }
+                var selectedOption by remember(questionIndex) { mutableStateOf("") }
+                var isChecked by remember(questionIndex) { mutableStateOf(false) }
+
                 options.forEach { option ->
-                    val currentColor =
-                        optionStates[option] ?: ButtonDefaults.buttonColors().containerColor
-                    var optionText by remember(questionText) {
-                        mutableStateOf(option)
-                    }
+                    val optionText = optionTextStates[option] ?: option
+                    val border = if (selectedOption == option) BorderStroke(
+                        width = 4.dp,
+                        color = Color.Black
+                    ) else BorderStroke(width = 4.dp, color = MaterialTheme.colorScheme.primary)
+
                     QuestionChoice(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f),
+                            .weight(1f)
+                            .border(border, shape = RoundedCornerShape(20)),
                         onClick = {
-                            if (option == correctAnswer) {
-                                optionStates[option] = Green
-                                optionText = "✓ $optionText"
-                            } else {
-                                optionStates[option] = Red
-                                optionText = "X $optionText"
-                            }
-                            onClick(option)
+                            if (!isChecked) selectedOption = option
                         },
                         text = optionText,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = currentColor
+                            containerColor = optionColorStates[option]
+                                ?: ButtonDefaults.buttonColors().containerColor
                         )
                     )
 
+                }
+
+                if (!isChecked) {
+                    QuestionChoice(
+                        modifier = Modifier
+                            .weight(1f),
+                        onClick = {
+                            if (selectedOption == correctAnswer) {
+                                optionColorStates[selectedOption] = Green
+                                optionTextStates[selectedOption] = "✓ $selectedOption"
+                            } else {
+                                optionColorStates[selectedOption] = Red
+                                optionTextStates[selectedOption] = "X $selectedOption"
+                            }
+                            isChecked = true
+                        },
+                        text = "Checar"
+                    )
+                } else {
+                    QuestionChoice(
+                        modifier = Modifier.weight(1f),
+                        onClick = { onClick(selectedOption) },
+                        text = "Continuar"
+                    )
                 }
             }
         }
     }
 }
 
-@Preview
+
+@Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
 private fun QuestionScreenPreview() {
+    EducaMatTheme {
+        Question(
+            modifier = Modifier.fillMaxSize(),
+            questionText = "Quanto é 2 + 2?",
+            onClick = { },
+            options = List(4) { i -> i.toString() },
+            10,
+            "1/10",
+            ""
+        )
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun QuestionScreenNightPreview() {
     EducaMatTheme {
         Question(
             modifier = Modifier.fillMaxSize(),

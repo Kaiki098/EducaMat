@@ -35,8 +35,8 @@ fun EducaMatTheme(
 //            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
 //        }
 
-        darkTheme -> OrangeColorScheme
-        else -> BlueColorScheme
+        darkTheme -> BlueColorScheme
+        else -> OrangeColorScheme
     }
 
     MaterialTheme(

@@ -15,7 +15,7 @@ fun NavGraphBuilder.questionsDestination(
     composable(
         route = QuestionsRoute
     ) {
-        QuestionsScreen(defaultModifier, onStartClick = {
+        QuestionsScreen(defaultModifier, onNavigateToQuestionClick = {
             onNavigateToQuestion()
         })
     }

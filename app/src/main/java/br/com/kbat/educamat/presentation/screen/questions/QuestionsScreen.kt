@@ -28,8 +28,24 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun QuestionsScreen(
-    modifier: Modifier = Modifier, onStartClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    onNavigateToQuestionClick: () -> Unit, // FIXME noma ruim?
     questionViewModel: QuestionViewModel = koinViewModel()
+) {
+
+    val onStartClick: (String) -> Unit = { operation ->
+        questionViewModel.loadQuestions(operation, 10, 101)
+        if (questionViewModel.questions.value.isNotEmpty()) onNavigateToQuestionClick()
+    }
+
+    Questions(modifier = modifier, onStartClick = onStartClick)
+}
+
+
+@Composable
+private fun Questions(
+    modifier: Modifier = Modifier,
+    onStartClick: (String) -> Unit
 ) {
     Box {
         Image(
@@ -55,8 +71,7 @@ fun QuestionsScreen(
                 text = "Adição",
                 borderColor = Red,
                 onStartClick = {
-                    questionViewModel.loadQuestions("addition", 10, 101)
-                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
+                    onStartClick("addition")
                 }
             )
 
@@ -66,10 +81,7 @@ fun QuestionsScreen(
                     .fillMaxWidth(),
                 text = "Subtração",
                 borderColor = Yellow,
-                onStartClick = {
-                    questionViewModel.loadQuestions("subtraction", 10, 101)
-                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
-                }
+                onStartClick = { onStartClick("subtraction") }
             )
 
             OperationButton(
@@ -79,8 +91,7 @@ fun QuestionsScreen(
                 text = "Multiplicação",
                 borderColor = Blue,
                 onStartClick = {
-                    questionViewModel.loadQuestions("multiplication", 10, 101)
-                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
+                    onStartClick("multiplication")
                 }
             )
 
@@ -91,8 +102,7 @@ fun QuestionsScreen(
                 text = "Divisão",
                 borderColor = Pink,
                 onStartClick = {
-                    questionViewModel.loadQuestions("division", 10, 101)
-                    if (questionViewModel.questions.value.isNotEmpty()) onStartClick()
+                    onStartClick("division")
                 }
             )
         }
@@ -103,6 +113,6 @@ fun QuestionsScreen(
 @Composable
 private fun QuestionsScreenPreview() {
     EducaMatTheme {
-        QuestionsScreen(onStartClick = {})
+        Questions(onStartClick = {})
     }
 }

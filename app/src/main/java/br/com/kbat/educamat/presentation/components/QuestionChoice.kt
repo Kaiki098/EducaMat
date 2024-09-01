@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.questions
+package br.com.kbat.educamat.presentation.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button

@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.questions
+package br.com.kbat.educamat.presentation.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

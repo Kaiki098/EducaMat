@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.progress
+package br.com.kbat.educamat.presentation.viewmodel
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.kbat.educamat.data.repositories.QuestionRepository
 import br.com.kbat.educamat.domain.model.AnsweredQuestion
 import br.com.kbat.educamat.domain.model.toQuestionUI
+import br.com.kbat.educamat.presentation.components.QuestionUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -4,7 +4,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import br.com.kbat.educamat.presentation.screen.theories.TheoriesScreen
+import br.com.kbat.educamat.presentation.screen.TheoriesScreen
 
 const val TheoriesRoute = "theoriesscreen"
 

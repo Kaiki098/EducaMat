@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.settings
+package br.com.kbat.educamat.presentation.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.presentation.components.NumberPicker
 import br.com.kbat.educamat.presentation.theme.BlueColorScheme
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.OrangeColorScheme

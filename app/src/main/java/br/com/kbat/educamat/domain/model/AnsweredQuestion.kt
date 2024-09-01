@@ -1,7 +1,7 @@
 package br.com.kbat.educamat.domain.model
 
 import br.com.kbat.educamat.R
-import br.com.kbat.educamat.presentation.screen.progress.QuestionUI
+import br.com.kbat.educamat.presentation.components.QuestionUI
 import br.com.kbat.educamat.presentation.utils.ColorUtil
 import java.time.LocalDate
 

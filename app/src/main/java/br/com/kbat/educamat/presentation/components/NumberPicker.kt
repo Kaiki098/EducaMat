@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.settings
+package br.com.kbat.educamat.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

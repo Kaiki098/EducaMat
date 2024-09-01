@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.question
+package br.com.kbat.educamat.presentation.screen
 
 import android.content.Context
 import android.widget.Toast
@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.domain.model.AnsweredQuestion
-import br.com.kbat.educamat.presentation.screen.questions.QuestionChoice
+import br.com.kbat.educamat.presentation.components.QuestionChoice
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Green
 import br.com.kbat.educamat.presentation.theme.Red

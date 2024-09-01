@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.theories
+package br.com.kbat.educamat.presentation.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.components.OperationButton
-import br.com.kbat.educamat.presentation.screen.theory.TheoryScreen
 import br.com.kbat.educamat.presentation.theme.Blue
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Pink

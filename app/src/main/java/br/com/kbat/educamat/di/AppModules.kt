@@ -4,7 +4,7 @@ import androidx.room.Room
 import br.com.kbat.educamat.data.EducaMatDatabase
 import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.data.repositories.QuestionRepository
-import br.com.kbat.educamat.presentation.screen.progress.ProgressViewModel
+import br.com.kbat.educamat.presentation.viewmodel.ProgressViewModel
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
 import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
 import org.koin.android.ext.koin.androidContext

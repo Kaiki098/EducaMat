@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.progress
+package br.com.kbat.educamat.presentation.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +20,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.presentation.components.QuestionItem
+import br.com.kbat.educamat.presentation.components.QuestionUI
+import br.com.kbat.educamat.presentation.components.WeekChart
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.utils.ColorUtil
+import br.com.kbat.educamat.presentation.viewmodel.ProgressViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate

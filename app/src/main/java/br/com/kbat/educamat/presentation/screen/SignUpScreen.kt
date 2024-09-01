@@ -1,4 +1,4 @@
-package br.com.kbat.educamat.presentation.screen.singUp
+package br.com.kbat.educamat.presentation.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

@@ -1,8 +1,6 @@
 package br.com.kbat.educamat.presentation.screen.question
 
 import android.content.Context
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -47,6 +45,7 @@ import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Green
 import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
+import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -58,6 +57,7 @@ fun QuestionScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     questionViewModel: QuestionViewModel = koinViewModel(),
+    userViewModel: UserViewModel = koinViewModel<UserViewModel>(),
     context: Context = koinInject()
 ) {// TODO Adicionar UIState
     val questions by questionViewModel.questions.collectAsState() // TODO Adicionar ícone de cronômetro talvez
@@ -98,6 +98,7 @@ fun QuestionScreen(
     }
 
     val options = questions[currentQuestionNumber].options
+    val showTimer by userViewModel.isTimerOn.collectAsState(false)
 
     Question(
         modifier = modifier,
@@ -105,6 +106,7 @@ fun QuestionScreen(
         onClick = onClick,
         options = options,
         timer = timer,
+        showTimer = showTimer ?: false,
         questionIndex = "${currentQuestionNumber + 1}/${questions.size}",
         correctAnswer = questions[currentQuestionNumber].correctAnswer
     )
@@ -118,6 +120,7 @@ fun Question(
     onClick: (String) -> Unit,
     options: List<String>,
     timer: Int,
+    showTimer: Boolean,
     questionIndex: String,
     correctAnswer: String
 ) {
@@ -153,11 +156,13 @@ fun Question(
                 ) {
                     Text(text = questionIndex, fontSize = 18.sp)
                     Row {
-                        Text(text = "$timer", fontSize = 18.sp)
-                        Icon(
-                            imageVector = Icons.Default.Schedule,
-                            contentDescription = "Ícone de relógio"
-                        )
+                        if (showTimer) {
+                            Text(text = "$timer", fontSize = 18.sp)
+                            Icon(
+                                imageVector = Icons.Default.Schedule,
+                                contentDescription = "Ícone de relógio"
+                            )
+                        }
                     }
                 }
 
@@ -239,23 +244,7 @@ fun Question(
 }
 
 
-@Preview(uiMode = UI_MODE_NIGHT_NO)
-@Composable
-private fun QuestionScreenPreview() {
-    EducaMatTheme {
-        Question(
-            modifier = Modifier.fillMaxSize(),
-            questionText = "Quanto é 2 + 2?",
-            onClick = { },
-            options = List(4) { i -> i.toString() },
-            10,
-            "1/10",
-            ""
-        )
-    }
-}
-
-@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Preview
 @Composable
 private fun QuestionScreenNightPreview() {
     EducaMatTheme {
@@ -264,9 +253,10 @@ private fun QuestionScreenNightPreview() {
             questionText = "Quanto é 2 + 2?",
             onClick = { },
             options = List(4) { i -> i.toString() },
-            10,
-            "1/10",
-            ""
+            timer = 10,
+            showTimer = true,
+            questionIndex = "1/10",
+            correctAnswer = ""
         )
     }
 }

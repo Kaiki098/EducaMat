@@ -29,13 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
-import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.presentation.theme.BlueColorScheme
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
@@ -61,10 +59,10 @@ fun SettingsScreen(
         questionsPerRound = questionPerRound,
         maxValue = maxValue,
         isTimerOn = isTimerOn,
-        onChangeTheme = { viewModel.onChangeTheme(it) },
-        onChangeQuestionPerRound = { viewModel.onChangeQuestionPerRound(it) },
-        onChangeMaxValue = { viewModel.onChangeMaxValue(it) },
-        onSetTimer = { viewModel.onSetTimer(it) }
+        onChangeTheme = { viewModel.saveTheme(it) },
+        onChangeQuestionPerRound = { viewModel.saveQuestionsPerRound(it) },
+        onChangeMaxValue = { viewModel.saveMaxValue(it) },
+        onSetTimer = { viewModel.setTimer(it) }
     )
 }
 
@@ -79,7 +77,7 @@ fun SettingsContent(
     onChangeTheme: (String) -> Unit,
     onChangeQuestionPerRound: (Int) -> Unit,
     onChangeMaxValue: (Int) -> Unit,
-    onSetTimer: (Boolean) -> Unit
+    onSetTimer: (Boolean) -> Unit // FIXME UIState?
 ) {
     Box {
         Image(
@@ -239,7 +237,9 @@ fun SettingsContent(
 @Preview
 @Composable
 private fun SettingScreenPreview() {
-    EducaMatTheme(userPreferences = UserPreferences(LocalContext.current)) {
+    EducaMatTheme(
+        colorScheme = OrangeColorScheme
+    ) {
         SettingsContent(
             userName = "Kaiki",
             schoolYear = "Terceiro",

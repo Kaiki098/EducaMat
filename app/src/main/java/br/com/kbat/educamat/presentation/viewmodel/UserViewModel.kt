@@ -11,6 +11,12 @@ import kotlinx.coroutines.launch
 class UserViewModel(
     private val userPreferences: UserPreferences
 ) : ViewModel() {
+    val isUserLoggedIn: StateFlow<Boolean?> = userPreferences.isUserLoggedIn.stateIn(
+        scope = viewModelScope,
+        initialValue = false,
+        started = SharingStarted.WhileSubscribed(500)
+    )
+
     val userName: StateFlow<String?> = userPreferences.userName.stateIn(
         scope = viewModelScope,
         initialValue = "",
@@ -47,6 +53,12 @@ class UserViewModel(
         started = SharingStarted.WhileSubscribed(500)
     )
 
+    fun setIsUserLoggedIn(isUserLoggedIn: Boolean) {
+        viewModelScope.launch {
+            userPreferences.setIsUserLoggedIn(isUserLoggedIn)
+        }
+    }
+
     fun saveUserName(name: String) {
         viewModelScope.launch {
             userPreferences.saveUserName(name)
@@ -59,25 +71,25 @@ class UserViewModel(
         }
     }
 
-    fun onChangeQuestionPerRound(questions: Int) {
+    fun saveQuestionsPerRound(questions: Int) {
         viewModelScope.launch {
             userPreferences.saveQuestionPerRound(questions)
         }
-    }// TODO os nomes das funções estão todos errados
+    }
 
-    fun onChangeMaxValue(value: Int) {
+    fun saveMaxValue(value: Int) {
         viewModelScope.launch {
             userPreferences.saveMaxValue(value)
         }
     }
 
-    fun onChangeTheme(theme: String) {
+    fun saveTheme(theme: String) {
         viewModelScope.launch {
             userPreferences.saveTheme(theme)
         }
     }
 
-    fun onSetTimer(timer: Boolean) {
+    fun setTimer(timer: Boolean) {
         viewModelScope.launch {
             userPreferences.setIsTimerOn(timer)
         }

@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,27 +33,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
-import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Orange
-import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
+import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier, onNavigateToHome: () -> Unit) {
-    val userPreferences: UserPreferences =
-        koinInject()
-    val scope = rememberCoroutineScope()
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    onNavigateToHome: () -> Unit,
+    userViewModel: UserViewModel = koinViewModel()
+) {
     val onSaveClick: (String, String) -> Unit = { userName, schoolYear ->
-        scope.launch {
-            userPreferences.setIsUserLoggedIn(true)
-            userPreferences.saveUserName(userName)
-            userPreferences.saveSchoolYear(schoolYear)
-            userPreferences.saveQuestionPerRound(10)
-            userPreferences.saveMaxValue(100)
-            onNavigateToHome()
-        }
+        userViewModel.setIsUserLoggedIn(true)
+        userViewModel.saveUserName(userName)
+        userViewModel.saveSchoolYear(schoolYear)
+        userViewModel.saveQuestionsPerRound(10)
+        userViewModel.saveMaxValue(100)
+        userViewModel.setTimer(true)
+        onNavigateToHome()
     }
     SignUp(
         modifier = modifier,

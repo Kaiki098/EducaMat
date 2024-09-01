@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,7 +24,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import br.com.kbat.educamat.R
-import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.presentation.navigation.ProgressRoute
 import br.com.kbat.educamat.presentation.navigation.QuestionsRoute
 import br.com.kbat.educamat.presentation.navigation.SettingsRoute
@@ -129,7 +127,7 @@ fun BottomBar(navController: NavHostController) {
 @Composable
 private fun BottomBarPreview() {
     val navController: NavHostController = rememberNavController()
-    EducaMatTheme(userPreferences = UserPreferences(LocalContext.current)) {
+    EducaMatTheme {
         BottomBar(navController = navController)
     }
 }

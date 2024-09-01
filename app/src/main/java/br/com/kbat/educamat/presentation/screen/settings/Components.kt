@@ -17,11 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 
 @Composable
@@ -88,9 +86,7 @@ fun NumberPicker(
 @Preview(showSystemUi = true)
 @Composable
 private fun NumberPickerPreview() {
-    EducaMatTheme(
-        userPreferences = UserPreferences(LocalContext.current)
-    ) {
+    EducaMatTheme {
         NumberPicker(min = 5, max = 100)
     }
 }

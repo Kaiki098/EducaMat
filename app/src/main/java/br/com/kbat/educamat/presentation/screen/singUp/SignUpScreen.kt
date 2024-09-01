@@ -51,6 +51,8 @@ fun SignUpScreen(modifier: Modifier = Modifier, onNavigateToHome: () -> Unit) {
             userPreferences.setIsUserLoggedIn(true)
             userPreferences.saveUserName(userName)
             userPreferences.saveSchoolYear(schoolYear)
+            userPreferences.saveQuestionPerRound(10)
+            userPreferences.saveMaxValue(100)
             onNavigateToHome()
         }
     }

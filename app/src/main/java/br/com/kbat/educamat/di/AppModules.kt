@@ -6,6 +6,7 @@ import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.data.repositories.QuestionRepository
 import br.com.kbat.educamat.presentation.screen.progress.ProgressViewModel
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
+import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -15,6 +16,7 @@ val appModule = module {
     singleOf(::QuestionRepository)
     viewModelOf(::QuestionViewModel)
     viewModelOf(::ProgressViewModel)
+    viewModelOf(::UserViewModel)
 }
 
 val storageModule = module {

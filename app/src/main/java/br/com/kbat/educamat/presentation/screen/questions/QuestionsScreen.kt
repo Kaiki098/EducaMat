@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -17,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.data.preferences.UserPreferences
 import br.com.kbat.educamat.presentation.components.OperationButton
 import br.com.kbat.educamat.presentation.theme.Blue
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
@@ -25,16 +27,20 @@ import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.theme.Yellow
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun QuestionsScreen(
     modifier: Modifier = Modifier,
     onNavigateToQuestionClick: () -> Unit, // FIXME noma ruim?
-    questionViewModel: QuestionViewModel = koinViewModel()
+    questionViewModel: QuestionViewModel = koinViewModel(),
+    userPreferences: UserPreferences = koinInject()
 ) {
+    val numberOfQuestions = userPreferences.questionsPerRound.collectAsState(10).value ?: 10
+    val maxValue = userPreferences.maxValue.collectAsState(100).value ?: 100
 
     val onStartClick: (String) -> Unit = { operation ->
-        questionViewModel.loadQuestions(operation, 10, 101)
+        questionViewModel.loadQuestions(operation, numberOfQuestions, maxValue)
         if (questionViewModel.questions.value.isNotEmpty()) onNavigateToQuestionClick()
     }
 

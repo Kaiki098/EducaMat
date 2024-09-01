@@ -1,12 +1,15 @@
 package br.com.kbat.educamat.presentation.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import br.com.kbat.educamat.data.preferences.UserPreferences
+import org.koin.compose.koinInject
 
 
-private val OrangeColorScheme = customColorScheme(
+val OrangeColorScheme = customColorScheme(
     primary = Orange,
     onPrimary = Color.Black,
     background = LightOrange,
@@ -14,7 +17,7 @@ private val OrangeColorScheme = customColorScheme(
     onSurface = Gray
 )
 
-private val BlueColorScheme = customColorScheme(
+val BlueColorScheme = customColorScheme(
     primary = Blue,
     onPrimary = Color.Black,
     background = LightBlue,
@@ -22,22 +25,20 @@ private val BlueColorScheme = customColorScheme(
     onSurface = Gray
 )
 
+val themes = mapOf(
+    "orange" to OrangeColorScheme,
+    "blue" to BlueColorScheme
+)
+
+
 @Composable
 fun EducaMatTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    userPreferences: UserPreferences = koinInject(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-//            val context = LocalContext.current
-//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-//        }
+    val themeValue by userPreferences.theme.collectAsState(initial = "")
+    val colorScheme = themes[themeValue] ?: OrangeColorScheme
 
-        darkTheme -> BlueColorScheme
-        else -> OrangeColorScheme
-    }
 
     MaterialTheme(
         colorScheme = colorScheme,

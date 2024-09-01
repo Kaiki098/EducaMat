@@ -37,7 +37,7 @@ object QuestionGenerator {
             "addition" -> n1 + n2
             "subtraction" -> n1 - n2
             "multiplication" -> n1 * n2
-            "division" -> n1 / n2.toFloat()
+            "division" -> n1 / n2.toFloat() // TODO Talvez usar um enum para essas operações
             else -> 0
         }
     }

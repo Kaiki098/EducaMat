@@ -19,12 +19,13 @@ import java.util.EnumMap
 
 data class ProgressUIState(
     val questions: List<QuestionUI> = emptyList(),
-    val dailyStatistics: EnumMap<DayOfWeek, Dp> = EnumMap(DayOfWeek::class.java),
+    val dailyStatisticsScaled: EnumMap<DayOfWeek, Dp> = EnumMap(DayOfWeek::class.java),
+    val dailyStatisticsUnscaled: EnumMap<DayOfWeek, Int> = EnumMap(DayOfWeek::class.java),
     val isLoading: Boolean = true
 )
 
 class ProgressViewModel(
-    val questionRepository: QuestionRepository
+    private val questionRepository: QuestionRepository
 ) : ViewModel() { // TODO Revisar implementação
 
     private val _uiState = MutableStateFlow(ProgressUIState())
@@ -37,11 +38,13 @@ class ProgressViewModel(
         viewModelScope.launch {
             answeredQuestions.collect { answeredQuestions -> // FIXME Estou fazendo algo errado?
                 val questions = answeredQuestions.map { it.toQuestionUI() }
-                val dailyStatistics = getDailyStatistics()
+                val dailyStatisticsScaled = getDailyStatisticsScaled()
+                val dailyStatisticsUnscaled = getDailyStatisticsUnscaled()
                 _uiState.update {
                     it.copy(
                         questions = questions,
-                        dailyStatistics = dailyStatistics,
+                        dailyStatisticsScaled = dailyStatisticsScaled,
+                        dailyStatisticsUnscaled = dailyStatisticsUnscaled,
                         isLoading = false
                     )
                 }
@@ -49,20 +52,29 @@ class ProgressViewModel(
         }
     }
 
-    private fun getDailyStatistics(): EnumMap<DayOfWeek, Dp> {
+    private fun getDailyStatisticsScaled(): EnumMap<DayOfWeek, Dp> {
+        val dailyStatisticsUnscaled = getDailyStatisticsUnscaled()
+        return scaleDailyStatistics(dailyStatisticsUnscaled)
+    }
+
+    private fun getDailyStatisticsUnscaled(): EnumMap<DayOfWeek, Int> {
         val last7Days = LocalDate.now().minusDays(7)
-        val recentQuestions = answeredQuestions.value
+
+        return answeredQuestions.value
             .filter { it.day >= last7Days }
             .groupBy { it.day.dayOfWeek }
             .mapValues { (_, question) -> question.sumOf { it.time } }
+            .toMap(EnumMap(DayOfWeek::class.java))
+    }
 
+    private fun scaleDailyStatistics(dailyStatistics: EnumMap<DayOfWeek, Int>): EnumMap<DayOfWeek, Dp> {
         var maxValue = 100
-        if (recentQuestions.isNotEmpty()) {
-            maxValue = recentQuestions.maxOf { it.value }
+        if (dailyStatistics.isNotEmpty()) {
+            maxValue = dailyStatistics.maxOf { it.value }
         }
         val scaleFactor = if (maxValue > 100) 100.0 / maxValue else 1.0
 
-        return recentQuestions
+        return dailyStatistics
             .mapValues { (_, dayStatistic) -> (dayStatistic * scaleFactor).dp }
             .toMap(EnumMap(DayOfWeek::class.java))
     }

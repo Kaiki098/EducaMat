@@ -54,7 +54,8 @@ fun ProgressScreen(
         Progress(
             modifier = modifier,
             questions = uiState.questions,
-            dailyStatistics = uiState.dailyStatistics,
+            dailyStatisticsScaled = uiState.dailyStatisticsScaled,
+            dailyStatisticsUnscaled = uiState.dailyStatisticsUnscaled,
             onDeleteQuestion = { id -> viewModel.deleteQuestion(id) }
         )
     }
@@ -75,7 +76,8 @@ fun LoadingProgress(modifier: Modifier = Modifier) {
 fun Progress(
     modifier: Modifier = Modifier,
     questions: List<QuestionUI>,
-    dailyStatistics: EnumMap<DayOfWeek, Dp>,
+    dailyStatisticsScaled: EnumMap<DayOfWeek, Dp>,
+    dailyStatisticsUnscaled: EnumMap<DayOfWeek, Int>,
     onDeleteQuestion: (Int) -> Unit
 ) {
     Box(
@@ -98,7 +100,8 @@ fun Progress(
             )
 
             WeekChart(
-                dailyStatistics = dailyStatistics,
+                dailyStatisticsScaled = dailyStatisticsScaled,
+                dailyStatisticsUnscaled = dailyStatisticsUnscaled,
                 modifier = Modifier.padding(20.dp)
             )
             Box {
@@ -168,16 +171,21 @@ private fun ProgressScreenPreview() {
             day = LocalDate.now()
         )
     }
-    val dailyStatistics = questions
+    val dailyStatisticsScaled = questions
         .groupBy { it.day.dayOfWeek }
         .mapValues { (_, questions) -> questions.sumOf { it.questionTime }.dp }
+        .toMap(EnumMap(DayOfWeek::class.java))
+    val dailyStatisticsUnscaled = questions
+        .groupBy { it.day.dayOfWeek }
+        .mapValues { (_, questions) -> questions.sumOf { it.questionTime } }
         .toMap(EnumMap(DayOfWeek::class.java))
 
     EducaMatTheme {
         Progress(
             modifier = Modifier.fillMaxSize(),
             questions = questions,
-            dailyStatistics = dailyStatistics,
+            dailyStatisticsScaled = dailyStatisticsScaled,
+            dailyStatisticsUnscaled = dailyStatisticsUnscaled,
             onDeleteQuestion = {}
         )
     }

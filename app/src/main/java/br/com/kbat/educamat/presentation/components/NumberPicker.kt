@@ -55,7 +55,8 @@ fun NumberPicker(
 
                 Icon(
                     imageVector = Icons.Default.Remove,
-                    contentDescription = "Símbolo de subtração"
+                    contentDescription = "Símbolo de subtração",
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
@@ -76,7 +77,8 @@ fun NumberPicker(
 
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Símbolo de adição"
+                    contentDescription = "Símbolo de adição",
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

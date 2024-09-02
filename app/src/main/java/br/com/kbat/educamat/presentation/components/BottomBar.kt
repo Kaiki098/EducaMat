@@ -14,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +27,7 @@ import br.com.kbat.educamat.presentation.navigation.ProgressRoute
 import br.com.kbat.educamat.presentation.navigation.QuestionsRoute
 import br.com.kbat.educamat.presentation.navigation.SettingsRoute
 import br.com.kbat.educamat.presentation.navigation.TheoriesRoute
+import br.com.kbat.educamat.presentation.theme.BlueColorScheme
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 
 
@@ -110,11 +110,8 @@ fun BottomBar(navController: NavHostController) {
                         )
                     },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedTextColor = Color.White,
-                        unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
-                        indicatorColor = Color.Transparent,
-                        selectedIconColor = Color.White,
-                        unselectedIconColor = MaterialTheme.colorScheme.onPrimary
+                        selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        indicatorColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
                     )
                 )
             }
@@ -127,7 +124,9 @@ fun BottomBar(navController: NavHostController) {
 @Composable
 private fun BottomBarPreview() {
     val navController: NavHostController = rememberNavController()
-    EducaMatTheme {
+    EducaMatTheme(
+        BlueColorScheme
+    ) {
         BottomBar(navController = navController)
     }
 }

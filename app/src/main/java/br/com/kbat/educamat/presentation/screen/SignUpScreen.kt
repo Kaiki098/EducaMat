@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
-import br.com.kbat.educamat.presentation.theme.Orange
 import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -79,14 +78,14 @@ fun SignUp(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Dados", color = Orange, fontSize = 52.sp)
+            Text(text = "Dados", color = MaterialTheme.colorScheme.primary, fontSize = 52.sp)
 
             Box(
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 10.dp)
                     .fillMaxWidth()
                     .border(
-                        border = BorderStroke(width = 10.dp, Orange),
+                        border = BorderStroke(width = 10.dp, MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(10)
                     )
                     .background(color = Color.White),
@@ -98,7 +97,11 @@ fun SignUp(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.height(30.dp))
-                    Text(text = "Nome:", color = Orange, fontSize = 32.sp)
+                    Text(
+                        text = "Nome:",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 32.sp
+                    )
                     TextField(
                         value = userName,
                         textStyle = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center),
@@ -113,7 +116,11 @@ fun SignUp(
                         )
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Ano Escolar:", color = Orange, fontSize = 32.sp)
+                    Text(
+                        text = "Ano Escolar:",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 32.sp
+                    )
                     TextField(
                         value = schoolYear,
                         textStyle = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center),

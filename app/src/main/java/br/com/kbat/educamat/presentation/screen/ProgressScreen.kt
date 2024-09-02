@@ -1,13 +1,15 @@
 package br.com.kbat.educamat.presentation.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,11 +17,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.presentation.components.OutlinedText
 import br.com.kbat.educamat.presentation.components.QuestionItem
 import br.com.kbat.educamat.presentation.components.QuestionUI
 import br.com.kbat.educamat.presentation.components.WeekChart
@@ -58,7 +67,7 @@ fun LoadingProgress(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        CircularProgressIndicator() // Se começar a demorar de mais, crie um skeleton
+        //CircularProgressIndicator() // Se começar a demorar de mais, crie um skeleton
     }
 }
 
@@ -69,40 +78,66 @@ fun Progress(
     dailyStatistics: EnumMap<DayOfWeek, Dp>,
     onDeleteQuestion: (Int) -> Unit
 ) {
-    Column(
-        modifier = modifier
+    Box(
+        modifier
             .background(color = MaterialTheme.colorScheme.background)
+            .fillMaxSize()
     ) {
-        Text(
-            modifier = Modifier.padding(vertical = 20.dp, horizontal = 24.dp),
-            text = "Progresso diário",
-            color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 32.sp
+        Image(
+            painter = painterResource(id = R.drawable.background),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
         )
-        WeekChart(
-            dailyStatistics = dailyStatistics,
-            modifier = Modifier.padding(20.dp)
-        )
-        Text(
-            modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp),
-            text = "Questões",
-            fontSize = 32.sp
-        )
-        if (questions.isEmpty()) {
-            Text(
-                modifier = Modifier.padding(horizontal = 20.dp),
-                text = "Não há questões respondidas",
-                fontSize = 18.sp
+
+        Column {
+            OutlinedText(
+                "Progresso diário",
+                modifier = Modifier.padding(vertical = 20.dp, horizontal = 24.dp)
             )
-        }
-        LazyColumn {
-            items(questions, key = {
-                it.number
-            }) { question ->
-                QuestionItem(
-                    question = question,
-                    onDeleteQuestion = onDeleteQuestion
+
+            WeekChart(
+                dailyStatistics = dailyStatistics,
+                modifier = Modifier.padding(20.dp)
+            )
+            Box {
+                Text(
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp),
+                    text = "Questões",
+                    fontSize = 32.sp,
+                    color = Color.White,
+                    style = LocalTextStyle.current.merge(
+                        drawStyle = Stroke(
+                            miter = 10f,
+                            width = 10f,
+                            join = StrokeJoin.Round
+                        )
+                    )
                 )
+                Text(
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp),
+                    text = "Questões",
+                    fontSize = 32.sp
+                )
+            }
+
+            if (questions.isEmpty()) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 20.dp),
+                    text = "Não há questões respondidas",
+                    fontSize = 18.sp
+                )
+            }
+            LazyColumn {
+                items(questions, key = {
+                    it.number
+                }) { question ->
+                    QuestionItem(
+                        question = question,
+                        onDeleteQuestion = onDeleteQuestion
+                    )
+                }
             }
         }
     }

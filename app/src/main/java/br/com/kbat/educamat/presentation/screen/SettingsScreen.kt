@@ -27,7 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.components.NumberPicker
+import br.com.kbat.educamat.presentation.components.OutlinedText
 import br.com.kbat.educamat.presentation.theme.BlueColorScheme
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
@@ -80,27 +81,31 @@ fun SettingsContent(
     onChangeMaxValue: (Int) -> Unit,
     onSetTimer: (Boolean) -> Unit // FIXME UIState?
 ) {
-    Box {
+
+    Box(
+        modifier
+            .background(color = MaterialTheme.colorScheme.background)
+            .fillMaxSize()
+    ) {
+
         Image(
             painter = painterResource(id = R.drawable.background),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
         )
 
         Column(
-            modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Ajustes",
-                fontSize = 32.sp
-            )
+            OutlinedText("Ajustes")
+
             Box(
                 modifier = Modifier
                     .padding(20.dp)
                     .background(
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.background,
                         shape = RoundedCornerShape(10)
                     )
                     .border(
@@ -235,7 +240,7 @@ fun SettingsContent(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun SettingScreenPreview() {
     EducaMatTheme(

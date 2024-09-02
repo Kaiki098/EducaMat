@@ -6,43 +6,56 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
+import br.com.kbat.educamat.presentation.theme.BlueColorScheme
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
-import br.com.kbat.educamat.presentation.theme.Orange
 
 @Composable
 fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
-    Box {
+    Box(
+        modifier
+            .background(color = MaterialTheme.colorScheme.background)
+            .fillMaxSize()
+    ) {
+
         Image(
             painter = painterResource(id = R.drawable.background),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
         )
 
         Column(
-            modifier.padding(horizontal = 30.dp, vertical = 60.dp),
+            Modifier
+                .padding(horizontal = 30.dp, vertical = 60.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .weight(0.3f)
-                    .border(width = 10.dp, color = Orange, shape = RoundedCornerShape(20))
-                    .background(color = Color.White, shape = RoundedCornerShape(20)),
+                    .border(
+                        width = 10.dp, color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(20)
+                    )
+                    .background(
+                        color = MaterialTheme.colorScheme.background,
+                        shape = RoundedCornerShape(20)
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(text = "Teoria", fontSize = 24.sp)
@@ -54,10 +67,12 @@ fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
     }
 }
 
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun TheoryPreview() {
-    EducaMatTheme {
+    EducaMatTheme(
+        colorScheme = BlueColorScheme
+    ) {
         TheoryScreen(onBackClick = {})
     }
 }

@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.kbat.educamat.presentation.theme.Blue
+import br.com.kbat.educamat.presentation.theme.Blue800
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 
 @Composable
@@ -55,7 +55,7 @@ private fun OperationButtonPreview() {
                 .height(150.dp)
                 .width(300.dp),
             onStartClick = { },
-            borderColor = Blue,
+            borderColor = Blue800,
             text = "Azul"
         )
     }

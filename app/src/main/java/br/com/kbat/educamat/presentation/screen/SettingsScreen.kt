@@ -12,12 +12,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,6 +74,7 @@ fun SettingsScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsContent(
     modifier: Modifier = Modifier,
@@ -75,6 +88,7 @@ fun SettingsContent(
     onChangeMaxValue: (Int) -> Unit,
     onSetTimer: (Boolean) -> Unit // FIXME UIState?
 ) {
+    var openAlertDialog by remember { mutableStateOf(false) }
 
     Box(
         modifier
@@ -143,7 +157,51 @@ fun SettingsContent(
                         }
                     )
 
-                    Text(text = "Valor máximo", fontSize = 24.sp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = "Valor máximo", fontSize = 24.sp)
+                        IconButton(
+                            onClick = { openAlertDialog = !openAlertDialog }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Info,
+                                contentDescription = "Ponto de exclamação",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        if (openAlertDialog) {
+                            BasicAlertDialog(
+                                modifier = Modifier
+                                    .padding(20.dp),
+                                onDismissRequest = { openAlertDialog = false }
+                            ) {
+                                Card(
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = MaterialTheme.colorScheme.background
+                                    )
+                                ) {
+                                    Column(
+                                        modifier = Modifier.padding(20.dp),
+                                        horizontalAlignment = Alignment.End
+                                    ) {
+                                        Text(
+                                            text = "Esta configuração define o valor máximo dos dois operandos, exceto no caso da divisão, em que apenas o valor máximo do divisor é definido.",
+                                            color = MaterialTheme.colorScheme.onBackground
+                                        )
+                                        Button(onClick = { openAlertDialog = !openAlertDialog }) {
+                                            Text(
+                                                "Ok",
+                                                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily
+                                            )
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
                     NumberPicker(
                         min = 10,
                         max = 1000,
@@ -153,6 +211,8 @@ fun SettingsContent(
                             onChangeMaxValue(it)
                         }
                     )
+
+
 
 
                     Text(text = "Temporizador", fontSize = 24.sp)

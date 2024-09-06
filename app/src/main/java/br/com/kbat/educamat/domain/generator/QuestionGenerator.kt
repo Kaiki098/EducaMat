@@ -22,12 +22,10 @@ object QuestionGenerator {
     }
 
     private fun generateOperands(maxValue: Int, operation: String): Pair<Int, Int> {
-        val n1 = Random.nextInt(maxValue)
-        var n2 = Random.nextInt(maxValue)
+        var n1 = Random.nextInt(1, maxValue)
+        val n2 = Random.nextInt(1, maxValue)
         if (operation == "division") {
-            while (n2 == 0) {
-                n2 = Random.nextInt(maxValue)
-            }
+            n1 = n2 * Random.nextInt(1, maxValue)
         }
         return Pair(n1, n2)
     }
@@ -37,7 +35,7 @@ object QuestionGenerator {
             "addition" -> n1 + n2
             "subtraction" -> n1 - n2
             "multiplication" -> n1 * n2
-            "division" -> n1 / n2.toFloat() // TODO Talvez usar um enum para essas operações
+            "division" -> n1 / n2
             else -> 0
         }
     }
@@ -54,7 +52,11 @@ object QuestionGenerator {
                     "addition" -> Random.nextInt(maxValue) + Random.nextInt(maxValue)
                     "subtraction" -> Random.nextInt(maxValue) - Random.nextInt(maxValue)
                     "multiplication" -> Random.nextInt(maxValue) * Random.nextInt(maxValue)
-                    "division" -> Random.nextInt(maxValue) / Random.nextInt(maxValue).toFloat()
+                    "division" -> {
+                        val n2 = Random.nextInt(1, maxValue)
+                        val n1 = n2 * Random.nextInt(1, maxValue)
+                        n1 / n2
+                    }
                     else -> Random.nextInt(maxValue)
                 }.toString()
             )
@@ -66,8 +68,8 @@ object QuestionGenerator {
         val operator = when (operation) {
             "addition" -> "+"
             "subtraction" -> "-"
-            "multiplication" -> "x"
-            "division" -> "/"
+            "multiplication" -> "×"
+            "division" -> "÷"
             else -> ""
         }
         return "$n1 $operator $n2"

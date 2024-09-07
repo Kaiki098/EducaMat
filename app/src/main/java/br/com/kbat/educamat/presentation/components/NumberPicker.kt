@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 
 @Composable
 fun NumberPicker(
@@ -96,7 +97,7 @@ fun NumberPicker(
 @Preview
 @Composable
 private fun NumberPickerPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         NumberPicker(min = 5, max = 100)
     }
 }

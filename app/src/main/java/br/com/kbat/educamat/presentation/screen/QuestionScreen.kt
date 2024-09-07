@@ -44,6 +44,7 @@ import br.com.kbat.educamat.domain.model.AnsweredQuestion
 import br.com.kbat.educamat.presentation.components.QuestionChoice
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Green
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
 import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
@@ -252,7 +253,7 @@ fun Question(
 @Preview(showSystemUi = true)
 @Composable
 private fun QuestionScreenNightPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         Question(
             modifier = Modifier.fillMaxSize(),
             questionText = "Quanto é 2 + 2?",

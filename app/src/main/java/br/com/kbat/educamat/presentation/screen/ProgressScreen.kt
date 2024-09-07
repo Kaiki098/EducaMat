@@ -33,6 +33,7 @@ import br.com.kbat.educamat.presentation.components.QuestionItem
 import br.com.kbat.educamat.presentation.components.QuestionUI
 import br.com.kbat.educamat.presentation.components.WeekChart
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 import br.com.kbat.educamat.presentation.utils.ColorUtil
 import br.com.kbat.educamat.presentation.viewmodel.ProgressViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -149,7 +150,7 @@ fun Progress(
 @Preview(showBackground = true)
 @Composable
 private fun LoadingPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         LoadingProgress()
     }
 }
@@ -180,7 +181,7 @@ private fun ProgressScreenPreview() {
         .mapValues { (_, questions) -> questions.sumOf { it.questionTime } }
         .toMap(EnumMap(DayOfWeek::class.java))
 
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         Progress(
             modifier = Modifier.fillMaxSize(),
             questions = questions,

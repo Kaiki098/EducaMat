@@ -61,7 +61,7 @@ val themes = mapOf(
 
 @Composable
 fun EducaMatTheme(
-    colorScheme: ColorScheme = OrangeColorScheme,
+    colorScheme: ColorScheme,
     content: @Composable () -> Unit
 ) {
 

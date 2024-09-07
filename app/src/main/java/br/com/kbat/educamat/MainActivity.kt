@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         var isWorkDone = false
 
 
-        installSplashScreen().setKeepOnScreenCondition { //TODO talvez tenha um modo melhor que esse
+        installSplashScreen().setKeepOnScreenCondition { // talvez tenha um modo melhor que esse
             !isWorkDone
         }
         enableEdgeToEdge()

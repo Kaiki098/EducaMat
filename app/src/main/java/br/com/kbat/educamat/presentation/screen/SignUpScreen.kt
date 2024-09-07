@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -157,7 +158,7 @@ fun SignUp(
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         SignUp(
             modifier = Modifier.fillMaxSize(),
             onSaveClick = { _, _ -> })

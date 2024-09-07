@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 
 @Composable
 fun OutlinedText(text: String, modifier: Modifier = Modifier) {
@@ -41,7 +42,7 @@ fun OutlinedText(text: String, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun OutlinedTextPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         OutlinedText("Olá mundo")
     }
 }

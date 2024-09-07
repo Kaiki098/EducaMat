@@ -61,7 +61,7 @@ fun QuestionScreen(
     userViewModel: UserViewModel = koinViewModel<UserViewModel>(),
     context: Context = koinInject()
 ) {// TODO Adicionar UIState
-    val questions by questionViewModel.questions.collectAsState() // TODO Adicionar ícone de cronômetro talvez
+    val questions by questionViewModel.questions.collectAsState()
     var currentQuestionNumber by remember { mutableIntStateOf(0) }
     val questionText =
         "Quanto é ${questions[currentQuestionNumber].expression}?" //TODO Da pra diminuir esse código

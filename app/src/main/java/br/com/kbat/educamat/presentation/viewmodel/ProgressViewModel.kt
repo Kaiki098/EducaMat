@@ -61,7 +61,7 @@ class ProgressViewModel(
         val last7Days = LocalDate.now().minusDays(7)
 
         return answeredQuestions.value
-            .filter { it.day >= last7Days }
+            .filter { it.day > last7Days }
             .groupBy { it.day.dayOfWeek }
             .mapValues { (_, question) -> question.sumOf { it.time } }
             .toMap(EnumMap(DayOfWeek::class.java))

@@ -226,21 +226,25 @@ fun Question(
                         modifier = Modifier
                             .weight(1f),
                         onClick = {
-                            if (selectedOption == correctAnswer) {
-                                optionColorStates[selectedOption] = Green
-                                optionTextStates[selectedOption] = "✓ $selectedOption"
-                            } else {
-                                optionColorStates[selectedOption] = Red
-                                optionTextStates[selectedOption] = "X $selectedOption"
+                            if (selectedOption.isNotBlank()) {
+                                if (selectedOption == correctAnswer) {
+                                    optionColorStates[selectedOption] = Green
+                                    optionTextStates[selectedOption] = "✓ $selectedOption"
+                                } else {
+                                    optionColorStates[selectedOption] = Red
+                                    optionTextStates[selectedOption] = "X $selectedOption"
+                                }
+                                isChecked = true
                             }
-                            isChecked = true
                         },
                         text = "Checar"
                     )
                 } else {
                     QuestionChoice(
                         modifier = Modifier.weight(1f),
-                        onClick = { onClick(selectedOption) },
+                        onClick = {
+                            onClick(selectedOption)
+                        },
                         text = "Continuar"
                     )
                 }

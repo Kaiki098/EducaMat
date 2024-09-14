@@ -4,9 +4,6 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
-import br.com.kbat.educamat.presentation.components.BottomBar
 
 
 val OrangeColorScheme = customColorScheme(
@@ -71,26 +68,3 @@ fun EducaMatTheme(
         content = content
     )
 }
-
-@Preview
-@Composable
-private fun SettingsPreview() {
-    EducaMatTheme(
-        colorScheme = BlueColorScheme
-    ) {
-        BottomBar(navController = rememberNavController())
-    }
-}
-
-
-@Preview
-@Composable
-private fun SettingsOrangePreview() {
-    EducaMatTheme(
-        colorScheme = OrangeColorScheme
-    ) {
-        BottomBar(navController = rememberNavController())
-    }
-}
-
-

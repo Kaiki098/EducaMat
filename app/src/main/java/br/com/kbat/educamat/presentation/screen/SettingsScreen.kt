@@ -105,6 +105,9 @@ fun SettingsContent(
         )
 
         Column(
+            Modifier
+                .fillMaxSize()
+                .padding(bottom = 20.dp, top = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedText("Ajustes")

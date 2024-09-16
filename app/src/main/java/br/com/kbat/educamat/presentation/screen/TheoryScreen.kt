@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +26,7 @@ import br.com.kbat.educamat.presentation.theme.BlueColorScheme
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 
 @Composable
-fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
+fun TheoryScreen(modifier: Modifier = Modifier, text: String, onBackClick: () -> Unit) {
     Box(
         modifier
             .background(color = MaterialTheme.colorScheme.background)
@@ -58,21 +60,29 @@ fun TheoryScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Teoria", fontSize = 24.sp)
+                Column (
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .verticalScroll(rememberScrollState())
+                ){
+                    Text(
+                        text = text,
+                        fontSize = 24.sp
+                    )
+                }
+
             }
-
-
         }
-
     }
 }
-
+/*
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun TheoryPreview() {
     EducaMatTheme(
         colorScheme = BlueColorScheme
     ) {
-        TheoryScreen(onBackClick = {})
+        TheoryScreen(onBackClick = {"a"})
     }
 }
+ */

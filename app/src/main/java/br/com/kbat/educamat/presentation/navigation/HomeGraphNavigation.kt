@@ -9,7 +9,7 @@ const val HomeGraphRoute = "homeGraph"
 fun NavGraphBuilder.homeGraph(
     defaultModifier: Modifier,
     onNavigateToQuestion: () -> Unit,
-    onNavigateToTheory: () -> Unit
+    onNavigateToTheory: (String) -> Unit
 ) {
     navigation(startDestination = ProgressRoute, route = HomeGraphRoute) {
         progressDestination(
@@ -23,8 +23,8 @@ fun NavGraphBuilder.homeGraph(
         )
         theoriesDestination(
             defaultModifier,
-            onNavigateToTheory = {
-                onNavigateToTheory()
+            onNavigateToTheory = { text ->
+                onNavigateToTheory(text)
             }
         )
         settingsDestination(

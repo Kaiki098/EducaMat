@@ -91,12 +91,12 @@ fun EducaMatApp(
                 onNavigateToQuestion = {
                     navController.navigateToQuestion()
                 },
-                onNavigateToTheory = {
-                    navController.navigateToTheory()
+                onNavigateToTheory = { text ->
+                    navController.navigateToTheory(text)
                 }
             )
             theoryDestination(
-                defaultModifier,
+                defaultModifier = defaultModifier,
                 onPopBackStack = {
                     navController.popBackStack()
                 }

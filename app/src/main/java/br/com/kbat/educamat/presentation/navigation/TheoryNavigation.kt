@@ -11,7 +11,8 @@ fun NavGraphBuilder.theoryDestination(
     defaultModifier: Modifier,
     onPopBackStack: () -> Unit
 ) {
-    composable(route = TheoryRoute) {
-        TheoryScreen(defaultModifier, onBackClick = { onPopBackStack() })
+    composable(route = "$TheoryRoute?text={text}") { backStackEntry ->
+        val text = backStackEntry.arguments?.getString("text") ?: ""
+        TheoryScreen(defaultModifier, text = text, onBackClick = { onPopBackStack() })
     }
 }

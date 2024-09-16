@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.presentation.theme.Blue800
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 
 @Composable
 fun OperationButton(
@@ -49,7 +50,7 @@ fun OperationButton(
 @Preview(showSystemUi = true)
 @Composable
 private fun OperationButtonPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         OperationButton(
             modifier = Modifier
                 .height(150.dp)

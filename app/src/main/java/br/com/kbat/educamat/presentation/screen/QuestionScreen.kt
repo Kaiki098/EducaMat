@@ -44,6 +44,7 @@ import br.com.kbat.educamat.domain.model.AnsweredQuestion
 import br.com.kbat.educamat.presentation.components.QuestionChoice
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
 import br.com.kbat.educamat.presentation.theme.Green
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.viewmodel.QuestionViewModel
 import br.com.kbat.educamat.presentation.viewmodel.UserViewModel
@@ -61,7 +62,7 @@ fun QuestionScreen(
     userViewModel: UserViewModel = koinViewModel<UserViewModel>(),
     context: Context = koinInject()
 ) {// TODO Adicionar UIState
-    val questions by questionViewModel.questions.collectAsState() // TODO Adicionar ícone de cronômetro talvez
+    val questions by questionViewModel.questions.collectAsState()
     var currentQuestionNumber by remember { mutableIntStateOf(0) }
     val questionText =
         "Quanto é ${questions[currentQuestionNumber].expression}?" //TODO Da pra diminuir esse código
@@ -225,21 +226,25 @@ fun Question(
                         modifier = Modifier
                             .weight(1f),
                         onClick = {
-                            if (selectedOption == correctAnswer) {
-                                optionColorStates[selectedOption] = Green
-                                optionTextStates[selectedOption] = "✓ $selectedOption"
-                            } else {
-                                optionColorStates[selectedOption] = Red
-                                optionTextStates[selectedOption] = "X $selectedOption"
+                            if (selectedOption.isNotBlank()) {
+                                if (selectedOption == correctAnswer) {
+                                    optionColorStates[selectedOption] = Green
+                                    optionTextStates[selectedOption] = "✓ $selectedOption"
+                                } else {
+                                    optionColorStates[selectedOption] = Red
+                                    optionTextStates[selectedOption] = "X $selectedOption"
+                                }
+                                isChecked = true
                             }
-                            isChecked = true
                         },
                         text = "Checar"
                     )
                 } else {
                     QuestionChoice(
                         modifier = Modifier.weight(1f),
-                        onClick = { onClick(selectedOption) },
+                        onClick = {
+                            onClick(selectedOption)
+                        },
                         text = "Continuar"
                     )
                 }
@@ -252,7 +257,7 @@ fun Question(
 @Preview(showSystemUi = true)
 @Composable
 private fun QuestionScreenNightPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         Question(
             modifier = Modifier.fillMaxSize(),
             questionText = "Quanto é 2 + 2?",

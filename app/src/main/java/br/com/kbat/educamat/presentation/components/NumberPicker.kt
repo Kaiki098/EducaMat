@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 
 @Composable
 fun NumberPicker(
@@ -42,9 +44,11 @@ fun NumberPicker(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(50))
                 .background(color = MaterialTheme.colorScheme.primary)
-                .size(size.dp)
+                .size(size.dp),
+            contentAlignment = Alignment.Center
         ) {
             IconButton(
+                modifier = Modifier.fillMaxSize(),
                 onClick = {
                     if (value > min) {
                         value--
@@ -52,30 +56,35 @@ fun NumberPicker(
                     }
                 }
             ) {
-
                 Icon(
+                    modifier = Modifier.fillMaxSize(),
                     imageVector = Icons.Default.Remove,
                     contentDescription = "Símbolo de subtração",
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
+
         Text(text = "$value", fontSize = size.sp)
         Box(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(50))
                 .background(color = MaterialTheme.colorScheme.primary)
-                .size(size.dp)
+                .size(size.dp),
+            contentAlignment = Alignment.Center
         ) {
-            IconButton(onClick = {
-                if (value < max) {
-                    value++
-                    onValueChange(value)
+            IconButton(
+                modifier = Modifier.fillMaxSize(),
+                onClick = {
+                    if (value < max) {
+                        value++
+                        onValueChange(value)
+                    }
                 }
-
-            }) {
+            ) {
 
                 Icon(
+                    modifier = Modifier.fillMaxSize(),
                     imageVector = Icons.Default.Add,
                     contentDescription = "Símbolo de adição",
                     tint = MaterialTheme.colorScheme.onPrimary
@@ -85,10 +94,10 @@ fun NumberPicker(
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview
 @Composable
 private fun NumberPickerPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         NumberPicker(min = 5, max = 100)
     }
 }

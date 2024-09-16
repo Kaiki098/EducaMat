@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.R
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 import br.com.kbat.educamat.presentation.utils.ColorUtil
 import java.time.LocalDate
 
@@ -143,12 +144,14 @@ data class QuestionUI(
     val userAnswear: String,
     val correctAnswear: String,
     val day: LocalDate
-)// FIXME UIState
+)
 
 @Preview(showBackground = true)
 @Composable
 private fun QuestionItemPreview() {
-    EducaMatTheme {
+    EducaMatTheme(
+        colorScheme = OrangeColorScheme
+    ) {
         QuestionItem(
             Modifier,
             question = QuestionUI(
@@ -163,6 +166,9 @@ private fun QuestionItemPreview() {
                 correctAnswear = "6",
                 day = LocalDate.now()
             )
-        ) {}
+        ) {
+
+        }
+
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 
 @Composable
 fun QuestionChoice(
@@ -38,7 +39,7 @@ fun QuestionChoice(
 @Preview
 @Composable
 private fun QuestionChoicePreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         QuestionChoice(onClick = {}, text = "456")
     }
 }

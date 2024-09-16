@@ -22,6 +22,7 @@ import br.com.kbat.educamat.presentation.components.OperationButton
 import br.com.kbat.educamat.presentation.components.OutlinedText
 import br.com.kbat.educamat.presentation.theme.Blue800
 import br.com.kbat.educamat.presentation.theme.EducaMatTheme
+import br.com.kbat.educamat.presentation.theme.OrangeColorScheme
 import br.com.kbat.educamat.presentation.theme.Pink
 import br.com.kbat.educamat.presentation.theme.Red
 import br.com.kbat.educamat.presentation.theme.Yellow
@@ -193,7 +194,7 @@ fun TheoriesScreen(modifier: Modifier = Modifier, onStudyClick: (String) -> Unit
 @Preview
 @Composable
 private fun TheoriesScreenPreview() {
-    EducaMatTheme {
+    EducaMatTheme(OrangeColorScheme) {
         TheoriesScreen { }
     }
 }
